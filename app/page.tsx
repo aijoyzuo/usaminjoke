@@ -5,7 +5,6 @@ import { mockGroups } from "@/constants/mockData";
 import { SearchResult } from "@/types";
 import SearchBar from "@/components/SearchBar";
 import MemeGroupCard from "@/components/MemeGroupCard";
-import HeroCarousel from "@/components/HeroCarousel";
 
 const normalize = (str: string) => str.trim().toLowerCase();
 
@@ -52,8 +51,7 @@ export default function Home() {
     <div className="flex">
       <div className="flex-1 p-6 space-y-6">
 
-        {/* 1️⃣ 輪播：永遠顯示 */}
-        <HeroCarousel groups={featured} />
+      
 
         {/* 2️⃣ 搜尋欄 */}
         <SearchBar />
