@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import DrawerMenu from "@/components/DrawerMenu";
 
 
+
 export const metadata: Metadata = {
   title: "UsamiJoke",
   description: "梗圖搜尋網站",
@@ -15,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-Hant">
+    <html lang="zh-TW" data-theme="usaminjoke">
       <body>
         <div className="drawer lg:drawer-open h-screen overflow-hidden">
           <input id="main-drawer" type="checkbox" className="drawer-toggle" />

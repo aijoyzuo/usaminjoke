@@ -11,10 +11,12 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
   const highlight = searchParams.get("highlight");
   const highlightRef = useRef<HTMLDivElement | null>(null);
 
-  // 有 highlight 時自動捲動
   useEffect(() => {
     if (highlight && highlightRef.current) {
-      highlightRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      highlightRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     }
   }, [highlight]);
 
@@ -26,20 +28,28 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
     const res = await fetch(url);
     const blob = await res.blob();
     const blobUrl = URL.createObjectURL(blob);
+
     const a = document.createElement("a");
     a.href = blobUrl;
     a.download = "meme.jpg";
     a.click();
+
     URL.revokeObjectURL(blobUrl);
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="min-h-screen bg-[#FFF5F8] p-8 space-y-8">
 
-      <h1 className="text-2xl font-bold">{group.group_keyword}</h1>
+      {/* Header */}
+      <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-6 shadow-md">
+        <h1 className="text-3xl font-bold text-[#8B3A62] flex items-center gap-3">
+          關鍵字： {group.group_keyword}
+        </h1>       
+      </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {group.images?.map(img => {
+      {/* Grid */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        {group.images?.map((img) => {
           const isHighlighted = img.id === highlight;
 
           return (
@@ -47,31 +57,61 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
               key={img.id}
               id={img.id}
               ref={isHighlighted ? highlightRef : null}
-              className={`space-y-2 rounded-lg p-1 transition ${
-                isHighlighted ? "ring-2 ring-primary" : ""
-              }`}
+              className={`
+                rounded-3xl p-3 bg-white border-2 transition-all duration-300
+                hover:-translate-y-1 hover:shadow-xl
+                ${
+                  isHighlighted
+                    ? "border-[#FF6FA7] shadow-[0_0_25px_rgba(255,111,167,0.35)]"
+                    : "border-[#FFD1E0] shadow-md"
+                }
+              `}
             >
+              {/* Image */}
               <img
                 src={img.url}
                 alt={img.title}
-                className="rounded-lg cursor-pointer hover:scale-105 transition w-full"
+                className="
+                  rounded-2xl cursor-pointer
+                  hover:scale-105 transition duration-300
+                  w-full
+                "
                 onClick={() => setSelectedImage(img.url)}
               />
 
-              <p className="text-sm font-medium">{img.title}</p>
+              {/* Title */}
+              <p className="text-sm font-semibold text-[#8B3A62] mt-3 truncate">
+                {img.title}
+              </p>
 
-              <div className="flex gap-2 text-sm">
+              {/* Buttons */}
+              <div className="flex gap-2 mt-3">
                 <button
-                  className="btn btn-xs btn-outline"
+                  className="
+                    flex-1 px-3 py-2 rounded-xl
+                    border-2 border-[#FF9BC1]
+                    text-[#D85D93]
+                    text-xs font-medium
+                    hover:bg-[#FFE9F1]
+                    transition
+                  "
                   onClick={() => downloadImage(img.url)}
                 >
                   下載
                 </button>
+
                 <button
-                  className="btn btn-xs btn-outline"
+                  className="
+                    flex-1 px-3 py-2 rounded-xl
+                    bg-[#FF6FA7]
+                    text-white
+                    text-xs font-medium
+                    hover:bg-[#FF5B99]
+                    transition
+                  "
                   onClick={() => copyLink(img.url)}
                 >
-                  複製連結
+                  複製
                 </button>
               </div>
             </div>
@@ -87,4 +127,4 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
       )}
     </div>
   );
-}     
+}

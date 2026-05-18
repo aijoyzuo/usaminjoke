@@ -9,89 +9,122 @@ export default function Sidebar() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  const cat = searchParams.get("cat") || "";
+
+  const currentCat = searchParams.get("cat") || "";
 
   const toggle = (id: string) => {
-    setOpen(prev => (prev === id ? null : id));
+    setOpen((prev) => (prev === id ? null : id));
   };
 
   const setCategory = (id: string) => {
-    router.push(`/?cat=${id}`);
+    router.push(id ? `/?cat=${id}` : "/");
   };
 
   return (
     <div className="flex flex-col h-full">
-      <h2 className="font-bold mb-3 shrink-0">分類</h2>
+      {/* Header */}
+      <h2 className="font-bold text-xl text-[#8B3A62] mb-4 shrink-0 flex items-center gap-2">
+        🐰 分類
+      </h2>
 
-      <div className="flex-1 overflow-y-auto space-y-1">
+      <div className="flex-1 overflow-y-auto space-y-2 pr-1">
 
         {/* 全部 */}
         <button
           onClick={() => setCategory("")}
-          className="w-full text-left px-3 py-2 rounded-md hover:bg-base-300"
+          className={`
+            w-full text-left px-4 py-3 rounded-2xl transition-all font-medium
+            ${
+              currentCat === ""
+                ? "bg-[#FF6FA7] text-white shadow-md"
+                : "text-[#8B3A62] hover:bg-[#FFE9F1]"
+            }
+          `}
         >
           全部
         </button>
 
         {categories.map((catItem) => {
           const isOpen = open === catItem.id;
+          const isActive = currentCat === catItem.id;
 
           return (
-            <div key={catItem.id} className="rounded-md">
+            <div key={catItem.id} className="rounded-2xl">
 
-              {/* parent */}
+              {/* Parent */}
               <button
                 onClick={() => {
                   toggle(catItem.id);
                   setCategory(catItem.id);
                 }}
-                className="
-                  w-full text-left px-3 py-2 rounded-md
-                  font-medium hover:bg-base-300 transition
-                "
+                className={`
+                  w-full px-4 py-3 rounded-2xl font-medium transition-all
+                  ${
+                    isActive
+                      ? "bg-[#FF9BC1] text-white shadow-sm"
+                      : "text-[#8B3A62] hover:bg-[#FFE9F1]"
+                  }
+                `}
               >
                 <div className="flex justify-between items-center">
-                  <span>{catItem.name}
+                  <span className="flex items-center gap-2">
+                    {catItem.name}
 
-                    {/* highlight current cat（加分） */}
-                    {cat === catItem.id && (
-                      <span className="ml-2 text-xs text-primary">
-                        ●
-                      </span>
+                    {isActive && (
+                      <span className="text-xs">●</span>
                     )}
-
                   </span>
 
                   {catItem.children && (
-                    <span className={`${isOpen ? 'rotate-90' : ''}`}>
+                    <span
+                      className={`
+                        transition-transform duration-300
+                        ${isOpen ? "rotate-90" : ""}
+                      `}
+                    >
                       ▶
                     </span>
                   )}
                 </div>
               </button>
 
-              {/* children */}
+              {/* Children */}
               {catItem.children && (
-                <div className={`
-                  overflow-hidden transition-all duration-300
-                  ${isOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'}
-                `}>
-                  <ul className="pl-6 mt-1 space-y-1">
-                    {catItem.children.map((c) => (
-                      <li key={c.id}>
-                        <button
-                          onClick={() => setCategory(c.id)}
-                          className="block w-full text-left px-2 py-1 rounded-md hover:bg-base-300"
-                        >
-                          {c.name}
-                        </button>
-                      </li>
-                    ))}
+                <div
+                  className={`
+                    overflow-hidden transition-all duration-300
+                    ${
+                      isOpen
+                        ? "max-h-80 opacity-100 mt-2"
+                        : "max-h-0 opacity-0"
+                    }
+                  `}
+                >
+                  <ul className="pl-4 space-y-2">
+                    {catItem.children.map((c) => {
+                      const childActive = currentCat === c.id;
+
+                      return (
+                        <li key={c.id}>
+                          <button
+                            onClick={() => setCategory(c.id)}
+                            className={`
+                              w-full text-left px-3 py-2 rounded-xl text-sm transition
+                              ${
+                                childActive
+                                  ? "bg-[#FFD1E0] text-[#D85D93] font-semibold"
+                                  : "text-[#8B3A62] hover:bg-[#FFF0F5]"
+                              }
+                            `}
+                          >
+                            #{c.name}
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}
-
             </div>
           );
         })}

@@ -13,33 +13,40 @@ export default function Home() {
   const q = searchParams.get("q") || "";
   const cat = searchParams.get("cat") || "";
 
-  const featured = mockGroups.filter(g => g.is_featured);
   const isSearching = !!(q || cat);
 
   const searchResults: SearchResult[] = isSearching
-    ? mockGroups.flatMap(g => {
-        const matchCat = !cat || g.category_main === cat || g.category_sub === cat;
+    ? mockGroups.flatMap((g) => {
+        const matchCat =
+          !cat || g.category_main === cat || g.category_sub === cat;
+
         if (!matchCat) return [];
 
-        // 只有分類、沒有關鍵字 → 顯示封面
         if (!q) {
-          const cover = g.images?.find(img => img.is_cover) ?? g.images?.[0];
+          const cover =
+            g.images?.find((img) => img.is_cover) ?? g.images?.[0];
+
           return cover ? [{ matchedImage: cover, group: g }] : [];
         }
 
-        // 找圖片 title 符合的
-        const matchedImages = g.images?.filter(img =>
-          normalize(img.title).includes(normalize(q))
-        ) ?? [];
+        const matchedImages =
+          g.images?.filter((img) =>
+            normalize(img.title).includes(normalize(q))
+          ) ?? [];
 
         if (matchedImages.length > 0) {
-          return matchedImages.map(img => ({ matchedImage: img, group: g }));
+          return matchedImages.map((img) => ({
+            matchedImage: img,
+            group: g,
+          }));
         }
 
-        // 圖片沒中，看 group_keyword 有沒有中
         const matchGroup = normalize(g.group_keyword).includes(normalize(q));
+
         if (matchGroup) {
-          const cover = g.images?.find(img => img.is_cover) ?? g.images?.[0];
+          const cover =
+            g.images?.find((img) => img.is_cover) ?? g.images?.[0];
+
           return cover ? [{ matchedImage: cover, group: g }] : [];
         }
 
@@ -48,52 +55,66 @@ export default function Home() {
     : [];
 
   return (
-    <div className="flex">
-      <div className="flex-1 p-6 space-y-6">
+    <div className="min-h-screen bg-[#FFF5F8]">
+      <div className="flex-1 p-8 space-y-8 max-w-7xl mx-auto">
 
-      
+        {/* Hero */}
+        <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-8 shadow-md">
+          <h1 className="text-4xl font-bold text-[#8B3A62] flex items-center gap-3">
+            🐰 UsaminJoke
+          </h1>
 
-        {/* 2️⃣ 搜尋欄 */}
+          <p className="text-[#C48AA3] mt-3 text-lg">
+            探索最荒謬、最可愛、最讓人噴笑的諧音梗圖宇宙 ✨
+          </p>
+        </div>
+
+        {/* Search */}
         <SearchBar />
 
-        {/* 3️⃣ 搜尋結果 */}
+        {/* Search Results */}
         {isSearching && (
-          <div>
-            <h2 className="font-bold mb-2">
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold text-[#8B3A62]">
               {q
                 ? `搜尋「${q}」的結果（${searchResults.length} 張）`
-                : `分類篩選結果（${searchResults.length} 張）`
-              }
+                : `分類篩選結果（${searchResults.length} 張）`}
             </h2>
-            {searchResults.length === 0
-              ? <p className="text-base-content/50">找不到相關梗圖</p>
-              : (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {searchResults.map(({ matchedImage, group }) => (
-                    <MemeGroupCard
-                      key={matchedImage.id}
-                      group={group}
-                      matchedImage={matchedImage}
-                    />
-                  ))}
-                </div>
-              )
-            }
+
+            {searchResults.length === 0 ? (
+              <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-8 text-center shadow-sm">
+                <p className="text-[#C48AA3] text-lg">
+                  找不到相關梗圖 🥺
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                {searchResults.map(({ matchedImage, group }) => (
+                  <MemeGroupCard
+                    key={matchedImage.id}
+                    group={group}
+                    matchedImage={matchedImage}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         )}
 
-        {/* 4️⃣ 全部圖組：沒有搜尋才顯示 */}
+        {/* All Meme Groups */}
         {!isSearching && (
-          <div>
-            <h2 className="font-bold mb-2">全部圖組</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {mockGroups.map(g => (
+          <div className="space-y-4">
+            <h2 className="text-2xl font-bold text-[#8B3A62] flex items-center gap-2">
+              🎀 全部圖組
+            </h2>
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+              {mockGroups.map((g) => (
                 <MemeGroupCard key={g.id} group={g} />
               ))}
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

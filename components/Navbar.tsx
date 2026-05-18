@@ -2,34 +2,63 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <div className="navbar bg-base-100 px-4 shadow-sm">
+    <div className="navbar bg-[#FFD1E0] px-6 py-3 border-b-2 border-[#FFD1E0] shadow-sm sticky top-0 z-50 backdrop-blur-md">
+
+      {/* Left */}
       <div className="navbar-start">
-        <label htmlFor="main-drawer" className="btn btn-ghost lg:hidden">
+        <label
+          htmlFor="main-drawer"
+          className="btn btn-ghost lg:hidden text-[#8B3A62] hover:bg-[#FFE9F1] border-none"
+        >
           ☰
         </label>
 
-
-        <Link href="/" className="text-xl font-bold">
-          UsamiJoke
+        <Link
+          href="/"
+          className="text-2xl font-bold text-[#8B3A62] tracking-tight flex items-center gap-2"
+        >
+           <span>救渴の輕鬆小棧</span>
         </Link>
       </div>
 
+      {/* Center */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal gap-2 px-1 text-[#8B3A62] font-medium">
           <li>
-            <Link href="/">首頁</Link>
+            <Link
+              href="/"
+              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
+            >
+              首頁
+            </Link>
           </li>
+
           <li>
-            <Link href="/creators">創作者</Link>
+            <Link
+              href="/creators"
+              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
+            >
+              創作者
+            </Link>
           </li>
+
           <li>
-            <Link href="/message-board">留言板</Link>
+            <Link
+              href="/message-board"
+              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
+            >
+              留言板
+            </Link>
           </li>
         </ul>
       </div>
 
+      {/* Right */}
       <div className="navbar-end hidden lg:flex">
-        <Link href="/creator-portal" className="btn btn-outline btn-sm">
+        <Link
+          href="/creator-portal"
+          className="px-5 py-2 rounded-2xl border-2 border-[#FF9BC1] text-[#D85D93] font-medium hover:bg-[#FF6FA7] hover:text-white hover:border-[#FF6FA7] transition-all duration-300"
+        >
           創作者專區
         </Link>
       </div>
