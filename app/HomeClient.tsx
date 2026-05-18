@@ -1,5 +1,6 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from "next/navigation";
 import { MemeGroup, SearchResult } from "@/types";
 import SearchBar from "@/components/SearchBar";
@@ -16,37 +17,39 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
 
   const searchResults: SearchResult[] = isSearching
     ? groups.flatMap(g => {
-        const matchCat = !cat || g.category_main === cat || g.category_sub === cat;
-        if (!matchCat) return [];
+      const matchCat = !cat || g.category_main === cat || g.category_sub === cat;
+      if (!matchCat) return [];
 
-        if (!q) {
-          const cover = g.images?.find(img => img.is_cover) ?? g.images?.[0];
-          return cover ? [{ matchedImage: cover, group: g }] : [];
-        }
+      if (!q) {
+        const cover = g.images?.find(img => img.is_cover) ?? g.images?.[0];
+        return cover ? [{ matchedImage: cover, group: g }] : [];
+      }
 
-        const matchedImages = g.images?.filter(img =>
-          normalize(img.title).includes(normalize(q))
-        ) ?? [];
+      const matchedImages = g.images?.filter(img =>
+        normalize(img.title).includes(normalize(q))
+      ) ?? [];
 
-        if (matchedImages.length > 0) {
-          return matchedImages.map(img => ({ matchedImage: img, group: g }));
-        }
+      if (matchedImages.length > 0) {
+        return matchedImages.map(img => ({ matchedImage: img, group: g }));
+      }
 
-        const matchGroup = normalize(g.group_keyword).includes(normalize(q));
-        if (matchGroup) {
-          const cover = g.images?.find(img => img.is_cover) ?? g.images?.[0];
-          return cover ? [{ matchedImage: cover, group: g }] : [];
-        }
+      const matchGroup = normalize(g.group_keyword).includes(normalize(q));
+      if (matchGroup) {
+        const cover = g.images?.find(img => img.is_cover) ?? g.images?.[0];
+        return cover ? [{ matchedImage: cover, group: g }] : [];
+      }
 
-        return [];
-      })
+      return [];
+    })
     : [];
 
   return (
     <div className="flex">
       <div className="flex-1 p-6 space-y-6">
 
-        <SearchBar />
+        <Suspense>
+          <SearchBar />
+        </Suspense>
 
         {isSearching && (
           <div>

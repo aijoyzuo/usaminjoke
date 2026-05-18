@@ -1,9 +1,10 @@
+import { Suspense } from 'react';
 import Link from "next/link";
 import Sidebar from "./Sidebar";
 
 export default function DrawerMenu() {
   return (
-    <div className="w-64  bg-[#FFE9F1] h-screen flex flex-col overflow-hidden border-r-2 border-[#FFD1E0] shadow-lg">
+    <div className="w-64 bg-[#FFE9F1] h-screen flex flex-col overflow-hidden border-r-2 border-[#FFD1E0] shadow-lg">
 
       {/* Mobile Logo */}
       <div className="lg:hidden p-5 border-b border-[#FFD1E0]">
@@ -15,43 +16,19 @@ export default function DrawerMenu() {
       {/* Mobile Nav */}
       <ul className="menu p-4 w-full lg:hidden text-[#8B3A62] font-medium space-y-2">
         <li>
-          <Link
-            href="/"
-            className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
-          >
-            首頁
-          </Link>
+          <Link href="/" className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">首頁</Link>
         </li>
-
         <li>
-          <Link
-            href="/creators"
-            className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
-          >
-            創作者
-          </Link>
+          <Link href="/creators" className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">創作者</Link>
         </li>
-
         <li>
-          <Link
-            href="/message-board"
-            className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
-          >
-            留言板
-          </Link>
+          <Link href="/message-board" className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">留言板</Link>
         </li>
-
         <li>
-          <Link
-            href="/creator-portal"
-            className="rounded-xl bg-[#FF6FA7] text-white hover:bg-[#FF5B99] transition"
-          >
-            創作者專區
-          </Link>
+          <Link href="/creator-portal" className="rounded-xl bg-[#FF6FA7] text-white hover:bg-[#FF5B99] transition">創作者專區</Link>
         </li>
       </ul>
 
-      {/* Divider */}
       <div className="mx-4 lg:hidden border-t border-[#FFD1E0]" />
 
       {/* Bunny Image */}
@@ -68,9 +45,12 @@ export default function DrawerMenu() {
       {/* Sidebar */}
       <div className="flex-1 min-h-0 p-4 overflow-y-auto">
         <div className="bg-white rounded-3xl border-2 border-[#FFD1E0] p-3 shadow-sm">
-          <Sidebar />
+          <Suspense fallback={<div className="text-[#C48AA3] text-sm p-2">載入分類...</div>}>
+            <Sidebar />
+          </Suspense>
         </div>
       </div>
+
     </div>
   );
 }
