@@ -1,16 +1,32 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { categories } from "@/constants/categories";
+import { supabase } from "@/lib/supabase";
+
+type Category = {
+  id: string;
+  name: string;
+  parent_id: string | null;
+};
 
 export default function Sidebar() {
   const [open, setOpen] = useState<string | null>(null);
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
 
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const currentCat = searchParams.get("cat") || "";
+
+  useEffect(() => {
+    supabase
+      .from('categories')
+      .select('*')
+      .order('created_at')
+      .then(({ data }) => {
+        if (data) setAllCategories(data);
+      });
+  }, []);
 
   const toggle = (id: string) => {
     setOpen((prev) => (prev === id ? null : id));
@@ -20,9 +36,10 @@ export default function Sidebar() {
     router.push(id ? `/?cat=${id}` : "/");
   };
 
+  const mainCategories = allCategories.filter(c => c.parent_id === null);
+
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
       <h2 className="font-bold text-xl text-[#8B3A62] mb-4 shrink-0 flex items-center gap-2">
         🐰 分類
       </h2>
@@ -34,17 +51,17 @@ export default function Sidebar() {
           onClick={() => setCategory("")}
           className={`
             w-full text-left px-4 py-3 rounded-2xl transition-all font-medium
-            ${
-              currentCat === ""
-                ? "bg-[#FF6FA7] text-white shadow-md"
-                : "text-[#8B3A62] hover:bg-[#FFE9F1]"
+            ${currentCat === ""
+              ? "bg-[#FF6FA7] text-white shadow-md"
+              : "text-[#8B3A62] hover:bg-[#FFE9F1]"
             }
           `}
         >
           全部
         </button>
 
-        {categories.map((catItem) => {
+        {mainCategories.map((catItem) => {
+          const subs = allCategories.filter(c => c.parent_id === catItem.id);
           const isOpen = open === catItem.id;
           const isActive = currentCat === catItem.id;
 
@@ -59,29 +76,19 @@ export default function Sidebar() {
                 }}
                 className={`
                   w-full px-4 py-3 rounded-2xl font-medium transition-all
-                  ${
-                    isActive
-                      ? "bg-[#FF9BC1] text-white shadow-sm"
-                      : "text-[#8B3A62] hover:bg-[#FFE9F1]"
+                  ${isActive
+                    ? "bg-[#FF9BC1] text-white shadow-sm"
+                    : "text-[#8B3A62] hover:bg-[#FFE9F1]"
                   }
                 `}
               >
                 <div className="flex justify-between items-center">
                   <span className="flex items-center gap-2">
                     {catItem.name}
-
-                    {isActive && (
-                      <span className="text-xs">●</span>
-                    )}
+                    {isActive && <span className="text-xs">●</span>}
                   </span>
-
-                  {catItem.children && (
-                    <span
-                      className={`
-                        transition-transform duration-300
-                        ${isOpen ? "rotate-90" : ""}
-                      `}
-                    >
+                  {subs.length > 0 && (
+                    <span className={`transition-transform duration-300 ${isOpen ? "rotate-90" : ""}`}>
                       ▶
                     </span>
                   )}
@@ -89,31 +96,20 @@ export default function Sidebar() {
               </button>
 
               {/* Children */}
-              {catItem.children && (
-                <div
-                  className={`
-                    overflow-hidden transition-all duration-300
-                    ${
-                      isOpen
-                        ? "max-h-80 opacity-100 mt-2"
-                        : "max-h-0 opacity-0"
-                    }
-                  `}
-                >
+              {subs.length > 0 && (
+                <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-80 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
                   <ul className="pl-4 space-y-2">
-                    {catItem.children.map((c) => {
+                    {subs.map((c) => {
                       const childActive = currentCat === c.id;
-
                       return (
                         <li key={c.id}>
                           <button
                             onClick={() => setCategory(c.id)}
                             className={`
                               w-full text-left px-3 py-2 rounded-xl text-sm transition
-                              ${
-                                childActive
-                                  ? "bg-[#FFD1E0] text-[#D85D93] font-semibold"
-                                  : "text-[#8B3A62] hover:bg-[#FFF0F5]"
+                              ${childActive
+                                ? "bg-[#FFD1E0] text-[#D85D93] font-semibold"
+                                : "text-[#8B3A62] hover:bg-[#FFF0F5]"
                               }
                             `}
                           >

@@ -27,7 +27,7 @@ export default function MemeCard({ meme }: { meme: Meme }) {
 
       <div className="p-4">
         <p className="text-sm font-medium text-[#8B3A62] truncate">
-          {meme.title}
+          {meme.title} 
         </p>
       </div>
     </div>

@@ -44,7 +44,7 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
       <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-6 shadow-md">
         <h1 className="text-3xl font-bold text-[#8B3A62] flex items-center gap-3">
           關鍵字： {group.group_keyword}
-        </h1>       
+        </h1>
       </div>
 
       {/* Grid */}
@@ -60,10 +60,9 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
               className={`
                 rounded-3xl p-3 bg-white border-2 transition-all duration-300
                 hover:-translate-y-1 hover:shadow-xl
-                ${
-                  isHighlighted
-                    ? "border-[#FF6FA7] shadow-[0_0_25px_rgba(255,111,167,0.35)]"
-                    : "border-[#FFD1E0] shadow-md"
+                ${isHighlighted
+                  ? "border-[#FF6FA7] shadow-[0_0_25px_rgba(255,111,167,0.35)]"
+                  : "border-[#FFD1E0] shadow-md"
                 }
               `}
             >
@@ -80,15 +79,16 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
               />
 
               {/* Title */}
-              <p className="text-sm font-semibold text-[#8B3A62] mt-3 truncate">
+              {/* <p className="text-sm font-semibold text-[#8B3A62] mt-3 truncate">
                 {img.title}
-              </p>
+              </p> */}
 
               {/* Buttons */}
               <div className="flex gap-2 mt-3">
-                <button
+                {/* <button
                   className="
                     flex-1 px-3 py-2 rounded-xl
+                    cursor-pointer
                     border-2 border-[#FF9BC1]
                     text-[#D85D93]
                     text-xs font-medium
@@ -98,11 +98,27 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
                   onClick={() => downloadImage(img.url)}
                 >
                   下載
+                </button> */}
+
+                <button
+                  disabled
+                  className="
+                  flex-1 px-3 py-2 rounded-xl
+                  border-2 border-[#FFDCE8]
+                  bg-[#FFF7FA]
+                  text-[#D9A8BC]
+                  text-xs font-medium
+                  cursor-not-allowed
+                  opacity-70
+                "
+                >
+                  下載
                 </button>
 
                 <button
                   className="
                     flex-1 px-3 py-2 rounded-xl
+                    cursor-pointer
                     bg-[#FF6FA7]
                     text-white
                     text-xs font-medium

@@ -1,4 +1,4 @@
-import { mockGroups } from "@/constants/mockData";
+import { supabase } from "@/lib/supabase";
 import GroupClient from "./GroupClient";
 
 type Props = {
@@ -8,9 +8,16 @@ type Props = {
 export default async function GroupPage({ params }: Props) {
   const { id } = await params;
 
-  const group = mockGroups.find(g => g.id === id);
+  const { data: group, error } = await supabase
+    .from('image_groups')
+    .select(`*, images (*)`)
+    .eq('id', id)
+    .single();
 
-  if (!group) return <div>找不到資料</div>;
+  if (error || !group) return <div>找不到資料</div>;
+
+  // images 按 order 排序
+  group.images = group.images?.sort((a: any, b: any) => a.order - b.order);
 
   return <GroupClient group={group} />;
 }

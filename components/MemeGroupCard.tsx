@@ -38,9 +38,9 @@ export default function MemeGroupCard({ group, matchedImage }: Props) {
       </div>
 
       <div className="p-4">
-        <p className="text-sm font-semibold text-[#8B3A62] truncate">
+        {/* <p className="text-sm text-center font-semibold text-[#8B3A62] truncate">
           {displayImage?.title}
-        </p>
+        </p> */}
 
         {matchedImage && !matchedImage.is_cover && (
           <p className="text-xs text-[#C48AA3] truncate mt-1">
