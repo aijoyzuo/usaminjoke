@@ -1,5 +1,20 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: usaminjoke --default;
+}
+
+@plugin "daisyui/theme" {
+  name: usaminjoke;
+  --color-primary: #FF6FA7;
+  --color-primary-content: #ffffff;
+  --color-secondary: #FF9BC1;
+  --color-accent: #FFD1E0;
+  --color-neutral: #666666;
+  --color-base-100: #FFF5F8;
+  --color-base-200: #FFE9F1;
+  --color-base-300: #FFD1E0;
+  --color-base-content: #1A1A1A;
+}
 
 html {
   color-scheme: light;
