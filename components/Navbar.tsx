@@ -17,7 +17,7 @@ export default function Navbar() {
           href="/"
           className="text-2xl font-bold text-[#8B3A62] tracking-tight flex items-center gap-2"
         >
-           <span>救渴の輕鬆小棧</span>
+          <span>救渴の輕鬆小棧</span>
         </Link>
       </div>
 
@@ -56,10 +56,23 @@ export default function Navbar() {
       {/* Right */}
       <div className="navbar-end hidden lg:flex">
         <Link
-          href="/creator-portal"
-          className="px-5 py-2 rounded-2xl border-2 border-[#FF9BC1] text-[#D85D93] font-medium hover:bg-[#FF6FA7] hover:text-white hover:border-[#FF6FA7] transition-all duration-300"
+          href="/admin/login"
+          aria-label="管理後台"
+          className="
+      w-8 h-8
+      flex items-center justify-center
+      rounded-full
+      // border-2 border-[#FF9BC1]
+      text-2xl
+      bg-transparent
+      // hover:bg-[#FF6FA7]
+      // hover:border-[#FF6FA7]
+      hover:scale-110
+      transition-all duration-300
+      shadow-sm hover:shadow-md
+    "
         >
-          創作者專區
+          ⚙️
         </Link>
       </div>
     </div>

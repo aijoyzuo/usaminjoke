@@ -17,46 +17,55 @@ export default function Home() {
 
   const searchResults: SearchResult[] = isSearching
     ? mockGroups.flatMap((g) => {
-        const matchCat =
-          !cat || g.category_main === cat || g.category_sub === cat;
+      const matchCat =
+        !cat || g.category_main === cat || g.category_sub === cat;
 
-        if (!matchCat) return [];
+      if (!matchCat) return [];
 
-        if (!q) {
-          const cover =
-            g.images?.find((img) => img.is_cover) ?? g.images?.[0];
+      // 只有分類
+      if (!q) {
+        const cover =
+          g.images?.find((img) => img.is_cover) ?? g.images?.[0];
 
-          return cover ? [{ matchedImage: cover, group: g }] : [];
-        }
+        return cover ? [{ matchedImage: cover, group: g }] : [];
+      }
 
-        const matchedImages =
-          g.images?.filter((img) =>
-            normalize(img.title).includes(normalize(q))
-          ) ?? [];
+      const normalizedQ = normalize(q);
 
-        if (matchedImages.length > 0) {
-          return matchedImages.map((img) => ({
+      // 搜圖片 title
+      const matchedImages =
+        g.images?.filter((img) =>
+          normalize(img.title).includes(normalizedQ)
+        ) ?? [];
+
+      if (matchedImages.length > 0) {
+        return matchedImages.map((img) => ({
+          matchedImage: img,
+          group: g,
+        }));
+      }
+
+      // 搜 group keyword + 注音
+      const matchGroup =
+        normalize(g.group_keyword).includes(normalizedQ) ||
+        normalize(g.group_keyword_zhuyin).includes(normalizedQ);
+
+      if (matchGroup) {
+        return (
+          g.images?.map((img) => ({
             matchedImage: img,
             group: g,
-          }));
-        }
+          })) ?? []
+        );
+      }
 
-        const matchGroup = normalize(g.group_keyword).includes(normalize(q));
-
-        if (matchGroup) {
-          const cover =
-            g.images?.find((img) => img.is_cover) ?? g.images?.[0];
-
-          return cover ? [{ matchedImage: cover, group: g }] : [];
-        }
-
-        return [];
-      })
+      return [];
+    })
     : [];
 
   return (
     <div className="min-h-screen bg-[#FFF5F8]">
-      <div className="flex-1 p-8 space-y-8 max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto p-8 space-y-8">
 
         {/* Hero */}
         <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-8 shadow-md">
@@ -101,7 +110,7 @@ export default function Home() {
           </div>
         )}
 
-        {/* All Meme Groups */}
+        {/* 全部圖組 */}
         {!isSearching && (
           <div className="space-y-4">
             <h2 className="text-2xl font-bold text-[#8B3A62] flex items-center gap-2">
