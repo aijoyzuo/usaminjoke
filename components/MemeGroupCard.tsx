@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MemeGroup, MemeImage } from "@/types";
+import { Search } from "lucide-react"
 
 type Props = {
   group: MemeGroup;
@@ -37,17 +38,26 @@ export default function MemeGroupCard({ group, matchedImage }: Props) {
         />
       </div>
 
-      <div className="p-4">
-        {/* <p className="text-sm text-center font-semibold text-[#8B3A62] truncate">
-          {displayImage?.title}
-        </p> */}
 
-        {matchedImage && !matchedImage.is_cover && (
-          <p className="text-xs text-[#C48AA3] truncate mt-1">
-            圖組：{group.group_keyword}
-          </p>
-        )}
-      </div>
+      {matchedImage && !matchedImage.is_cover && (
+        <div className="p-1 flex justify-end">
+          <div
+            className="            
+            text-[#D85D93]
+            text-sm font-semibold
+            flex items-center gap-1      
+            px-2 py-1 rounded-2xl
+      bg-white/85
+          "
+          >
+            <Search size={14} />
+            {group.group_keyword}
+          </div>
+        </div>
+      )}
+
+
+
     </Link>
   );
 }
