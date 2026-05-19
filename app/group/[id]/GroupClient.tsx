@@ -42,7 +42,7 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
 
       {/* Header */}
       <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-6 shadow-md">
-        <h1 className="text-3xl font-bold text-[#8B3A62] flex items-center gap-3">
+        <h1 className="text-2xl font-bold text-[#8B3A62] flex items-center gap-3">
           關鍵字： {group.group_keyword}
         </h1>
       </div>

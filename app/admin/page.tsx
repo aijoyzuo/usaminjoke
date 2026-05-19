@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import AdminAddGroup from './components/AdminAddGroup';
 import AdminGroups from './components/AdminGroups';
 import AdminCategories from './components/AdminCategories';
+import { Settings, PlusCircle, Images, FolderTree } from "lucide-react";
 
 type Tab = 'add' | 'groups' | 'categories';
 
@@ -31,10 +32,22 @@ export default function AdminPage() {
 
   if (loading) return null;
 
-  const tabs: { id: Tab; label: string }[] = [
-    { id: 'add', label: '🐰 新增圖組' },
-    { id: 'groups', label: '📦 管理圖組' },
-    { id: 'categories', label: '🗂️ 管理分類' },
+  const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
+    {
+      id: 'add',
+      label: '新增圖組',
+      icon: <PlusCircle size={18} />
+    },
+    {
+      id: 'groups',
+      label: '管理圖組',
+      icon: <Images size={18} />
+    },
+    {
+      id: 'categories',
+      label: '管理分類',
+      icon: <FolderTree size={18} />
+    },
   ];
 
   return (
@@ -44,8 +57,7 @@ export default function AdminPage() {
         {/* Header */}
         <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-6 shadow-md flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-[#8B3A62]">⚙️ 後台管理</h1>
-            <p className="text-[#C48AA3] mt-1">新增 UsaminJoke 梗圖內容</p>
+            <h1 className="text-3xl font-bold text-[#8B3A62] flex items-center gap-1"><Settings size={28} />後台管理</h1>
           </div>
           <button
             onClick={handleLogout}
@@ -62,14 +74,16 @@ export default function AdminPage() {
               key={t.id}
               onClick={() => setTab(t.id)}
               className={`
-                px-5 py-2.5 rounded-2xl text-sm font-medium transition-all
-                ${tab === t.id
+              flex items-center gap-2
+              px-5 py-2.5 rounded-2xl text-sm font-medium transition-all
+              ${tab === t.id
                   ? 'bg-[#FF6FA7] text-white shadow-md'
                   : 'bg-white border-2 border-[#FFD1E0] text-[#D85D93] hover:bg-[#FFE9F1]'
                 }
-              `}
+  `}
             >
-              {t.label}
+              {t.icon}
+              <span>{t.label}</span>
             </button>
           ))}
         </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { Plus } from 'lucide-react';
 
 type ImageEntry = {
   url: string;
@@ -137,11 +138,11 @@ export default function AdminAddGroup() {
           {showAddMain ? (
             <div className="flex gap-2">
               <input className="flex-1 px-3 py-2 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62]" placeholder="新分類名稱" value={newMainName} onChange={e => setNewMainName(e.target.value)} onKeyDown={e => e.key === 'Enter' && addMainCategory()} />
-              <button onClick={addMainCategory} className="px-3 py-2 rounded-xl bg-[#FF6FA7] text-white text-sm">新增</button>
-              <button onClick={() => setShowAddMain(false)} className="px-3 py-2 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#C48AA3]">取消</button>
+              <button onClick={addMainCategory} className="px-3 py-2 rounded-xl bg-[#FF6FA7] text-white text-sm cursor-pointer">新增</button>
+              <button onClick={() => setShowAddMain(false)} className="px-3 py-2 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#C48AA3] cursor-pointer">取消</button>
             </div>
           ) : (
-            <button onClick={() => setShowAddMain(true)} className="text-sm text-[#FF9BC1] hover:text-[#FF6FA7]">＋ 新增大分類</button>
+            <button onClick={() => setShowAddMain(true)} className="text-sm text-[#FF9BC1] hover:text-[#FF6FA7] cursor-pointer">＋ 新增大分類</button>
           )}
         </div>
         <div className="space-y-2">
@@ -157,7 +158,7 @@ export default function AdminAddGroup() {
               <button onClick={() => setShowAddSub(false)} className="px-3 py-2 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#C48AA3]">取消</button>
             </div>
           ) : (
-            <button onClick={() => setShowAddSub(true)} className="text-sm text-[#FF9BC1] hover:text-[#FF6FA7]">＋ 新增子分類</button>
+            <button onClick={() => setShowAddSub(true)} className="text-sm text-[#FF9BC1] hover:text-[#FF6FA7] cursor-pointer">＋ 新增子分類</button>
           ))}
         </div>
       </div>
@@ -175,18 +176,19 @@ export default function AdminAddGroup() {
                 </div>
               </div>
               <div className="flex gap-3 mt-3">
-                <button onClick={() => setCover(i)} className={`px-4 py-2 rounded-2xl text-sm transition-all ${img.isCover ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FF9BC1] text-[#D85D93]'}`}>
+                <button onClick={() => setCover(i)} className={`px-4 py-2 rounded-2xl text-sm transition-all cursor-pointer ${img.isCover ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FF9BC1] text-[#D85D93]'}`}>
                   {img.isCover ? '✓ 封面' : '設為封面'}
                 </button>
-                <button onClick={() => removeImage(i)} className="px-4 py-2 rounded-2xl border-2 border-red-300 text-red-500 hover:bg-red-400 hover:text-white transition-all">刪除</button>
+                <button onClick={() => removeImage(i)} className="px-4 py-2 rounded-2xl border-2 border-red-300 text-red-500 hover:bg-red-400 hover:text-white transition-all cursor-pointer">刪除</button>
               </div>
             </div>
           ))}
-          <button onClick={addImage} className="w-full py-3 rounded-2xl border-2 border-dashed border-[#FF9BC1] text-[#D85D93] hover:bg-[#FFE9F1] transition-all">＋ 新增圖片</button>
+          <button onClick={addImage} className="w-full py-3 rounded-2xl border-2 border-dashed border-[#FF9BC1] text-[#D85D93] hover:bg-[#FFE9F1] transition-all flex items-center justify-center gap-2 cursor-pointer"> <Plus size={16} /> 新增圖片</button>
+          
         </div>
       </div>
 
-      <button onClick={handleSubmit} disabled={submitting} className="w-full py-4 rounded-2xl bg-[#FF6FA7] text-white font-semibold hover:bg-[#FF5B99] shadow-md transition-all disabled:opacity-50">
+      <button onClick={handleSubmit} disabled={submitting} className="w-full py-4 rounded-2xl bg-[#FF6FA7] text-white font-semibold hover:bg-[#FF5B99] shadow-md transition-all disabled:opacity-50 cursor-pointer">
         {submitting ? '儲存中...' : '新增圖組'}
       </button>
     </div>

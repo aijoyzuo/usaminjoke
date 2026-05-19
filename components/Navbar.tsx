@@ -1,4 +1,7 @@
 import Link from "next/link";
+import { HouseHeart, Rabbit, MessageSquareHeart, Settings } from "lucide-react";
+
+
 
 export default function Navbar() {
   return (
@@ -17,7 +20,7 @@ export default function Navbar() {
           href="/"
           className="text-2xl font-bold text-[#8B3A62] tracking-tight flex items-center gap-2"
         >
-          <span>救渴の輕鬆小棧</span>
+          <span className="text-nowrap">救渴の輕鬆小棧</span>
         </Link>
       </div>
 
@@ -27,27 +30,30 @@ export default function Navbar() {
           <li>
             <Link
               href="/"
-              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
+              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition flex items-center"
             >
-              首頁
+              <HouseHeart size={18} />
+              <span className="mt-1">首頁</span>
             </Link>
           </li>
 
           <li>
             <Link
               href="/creators"
-              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
+              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition flex items-center"
             >
-              創作者
+              <Rabbit size={18} />
+              <span className="mt-1">創作者</span>
             </Link>
           </li>
 
           <li>
             <Link
               href="/message-board"
-              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"
+              className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition flex items-center"
             >
-              留言板
+              <MessageSquareHeart size={18} />
+              <span className="mt-1">留言板</span>
             </Link>
           </li>
         </ul>
@@ -59,20 +65,21 @@ export default function Navbar() {
           href="/admin/login"
           aria-label="管理後台"
           className="
-      w-8 h-8
-      flex items-center justify-center
-      rounded-full
-      // border-2 border-[#FF9BC1]
-      text-2xl
-      bg-transparent
-      // hover:bg-[#FF6FA7]
-      // hover:border-[#FF6FA7]
-      hover:scale-110
-      transition-all duration-300
-      shadow-sm hover:shadow-md
-    "
+          w-8 h-8
+          flex items-center justify-center
+          rounded-full
+          
+          text-2xl
+          text-[#FF6FA7]
+          bg-transparent
+          hover:text-[#ffffff]
+          hover:bg-[#FF6FA7]
+          
+          hover:scale-110
+          transition-all duration-300
+        "
         >
-          ⚙️
+          <Settings />
         </Link>
       </div>
     </div>
