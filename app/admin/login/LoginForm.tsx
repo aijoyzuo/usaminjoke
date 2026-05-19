@@ -29,7 +29,8 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200">
+    <div className="min-h-screen bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
+    bg-[size:28px_28px] flex items-center justify-center bg-base-200">
       <div className="card bg-base-100 w-[90%] sm:w-full max-w-sm shadow-md rounded-3xl">
         <div className="card-body space-y-4">
           <h1 className="text-xl font-bold text-center">登入</h1>

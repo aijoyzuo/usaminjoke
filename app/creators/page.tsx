@@ -33,12 +33,12 @@ const creators: Creator[] = [
   {
     id: 'aijoyzuo',
     name: '佐降',
-    nameEn: 'aijoyzuo',
+    nameEn: 'zuo',
     role: '網頁開發者',
     description:
-      '熱愛把有趣的東西做成網頁的前端開發者，用 Next.js + Tailwind + Supabase 打造這個梗圖宇宙。',
+      '一名愛台人士，Happy End 工程師',
     tags: ['Next.js', 'TypeScript', 'Supabase', '前端開發'],
-    socials: [{ label: 'GitHub', href: 'https://github.com/aijoyzuo' }],
+    socials: [{ label: 'Plurk', href: 'https://www.plurk.com/Gitto' },{ label: 'Threads', href: 'https://www.threads.com/@zuo_aot?igshid=NTc4MTIwNjQ2YQ==' }],
     shopHref: '#',
     avatar: '🛠️',
   },
@@ -46,7 +46,8 @@ const creators: Creator[] = [
 
 export default function CreatorsPage() {
   return (
-    <div className="min-h-screen bg-[#FFF5F8] py-16 px-6">
+    <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
+    bg-[size:28px_28px] py-16 px-6">
       <div className="max-w-7xl mx-auto space-y-8">
 
         {/* Header */}

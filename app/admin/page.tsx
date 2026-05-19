@@ -16,14 +16,26 @@ export default function AdminPage() {
   const [tab, setTab] = useState<Tab>('add');
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (!data.session) {
-        router.push('/admin/login');
-      } else {
-        setLoading(false);
-      }
-    });
-  }, [router]);
+  // 先檢查現有 session
+  supabase.auth.getSession().then(({ data }) => {
+    if (!data.session) {
+      router.push('/admin/login');
+    } else {
+      setLoading(false);
+    }
+  });
+
+  // 監聽登入/登出狀態變化
+  const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT' || !session) {
+      router.push('/admin/login');
+    } else {
+      setLoading(false);
+    }
+  });
+
+  return () => subscription.unsubscribe();
+}, [router]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -51,7 +63,8 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FFF5F8]">
+    <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
+    bg-[size:28px_28px]">
       <div className="max-w-4xl mx-auto p-8 space-y-6">
 
         {/* Header */}

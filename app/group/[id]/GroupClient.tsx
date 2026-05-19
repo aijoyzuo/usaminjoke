@@ -38,7 +38,8 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#FFF5F8] p-8 space-y-8">
+    <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
+    bg-[size:30px_30px] p-8 space-y-8">  
 
       {/* Header */}
       <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-6 shadow-md">

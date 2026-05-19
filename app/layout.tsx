@@ -7,7 +7,7 @@ import DrawerMenu from "@/components/DrawerMenu";
 
 export const metadata: Metadata = {
   title: "UsamiJoke",
-  description: "梗圖搜尋網站",
+  description: "諧音暨梗圖搜尋網站",
 };
 
 export default function RootLayout({

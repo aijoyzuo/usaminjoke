@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
-import { Rabbit } from 'lucide-react';
+import { Rabbit } from "lucide-react";
 
 type Category = {
   id: string;
@@ -46,7 +46,7 @@ export default function Sidebar() {
 
   return (
     <div className="flex flex-col h-full">
-      <h2 className="font-bold text-xl text-[#8B3A62] mb-4 shrink-0 flex items-center gap-2">
+      <h2 className="font-bold text-xl text-[#8B3A62] mb-4 shrink-0 flex items-center gap-2 ml-2">
         <Rabbit /> 分類
       </h2>
 
