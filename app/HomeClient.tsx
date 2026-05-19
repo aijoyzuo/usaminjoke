@@ -67,7 +67,7 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
 
           {isSearching && (
             <div>
-              <h2 className="font-bold mb-2">
+              <h2 className="font-bold mb-2 text-[#8b3a62]">
                 {q
                   ? `搜尋「${q}」的結果（${searchResults.length} 張）`
                   : `分類篩選結果（${searchResults.length} 張）`
@@ -92,7 +92,7 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
 
           {!isSearching && (
             <div>
-              <h2 className="font-bold mb-2">逛逛莎敏的第一個家</h2>
+              <h2 className="font-bold mb-2 text-[#8b3a62]">逛逛吳莎敏的窩</h2>
               {groups.length === 0
                 ? <p className="text-base-content/50">目前還沒有梗圖</p>
                 : (

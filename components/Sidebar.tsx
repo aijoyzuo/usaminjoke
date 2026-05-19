@@ -59,7 +59,7 @@ export default function Sidebar() {
             closeDrawer();
           }}
           className={`
-            w-full text-left px-4 py-3 rounded-2xl transition-all font-medium
+            w-full text-left px-4 py-3 rounded-2xl transition-all font-medium cursor-pointer
             ${currentCat === ""
               ? "bg-[#FF6FA7] text-white shadow-md"
               : "text-[#8B3A62] hover:bg-[#FFE9F1]"
@@ -84,7 +84,7 @@ export default function Sidebar() {
                   setCategory(catItem.id);
                 }}
                 className={`
-                  w-full px-4 py-3 rounded-2xl font-medium transition-all
+                  w-full px-4 py-3 rounded-2xl font-medium transition-all cursor-pointer
                   ${isActive
                     ? "bg-[#FF9BC1] text-white shadow-sm"
                     : "text-[#8B3A62] hover:bg-[#FFE9F1]"
@@ -118,7 +118,7 @@ export default function Sidebar() {
                               closeDrawer();
                             }}
                             className={`
-                              w-full text-left px-3 py-2 rounded-xl text-sm transition
+                              w-full text-left px-3 py-2 rounded-xl text-sm transition cursor-pointer 
                               ${childActive
                                 ? "bg-[#FFD1E0] text-[#D85D93] font-semibold"
                                 : "text-[#8B3A62] hover:bg-[#FFF0F5]"
