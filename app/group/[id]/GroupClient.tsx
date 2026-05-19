@@ -39,12 +39,12 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
 
   return (
     <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
-    bg-[size:30px_30px] p-8 space-y-8">  
+    bg-[size:30px_30px] p-6 space-y-8">  
 
       {/* Header */}
-      <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-6 shadow-md">
-        <h1 className="text-2xl font-bold text-[#8B3A62] flex items-center gap-3">
-          關鍵字： {group.group_keyword}
+      <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] px-6 py-4 shadow-md">
+        <h1 className="text-1xl font-bold text-[#8B3A62] flex items-center gap-3">
+          兔子洞： {group.group_keyword}
         </h1>
       </div>
 
