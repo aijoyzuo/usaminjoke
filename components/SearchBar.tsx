@@ -41,7 +41,7 @@ export default function SearchBar() {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-        placeholder="🐰 搜尋梗圖..."
+        placeholder="搜尋梗圖..."
       />
 
       <button

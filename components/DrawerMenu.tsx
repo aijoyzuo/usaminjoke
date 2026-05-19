@@ -1,6 +1,13 @@
+'use client';
+
 import { Suspense } from 'react';
 import Link from "next/link";
 import Sidebar from "./Sidebar";
+
+const closeDrawer = () => {
+  const drawer = document.getElementById('main-drawer') as HTMLInputElement;
+  if (drawer) drawer.checked = false;
+};
 
 export default function DrawerMenu() {
   return (
@@ -16,16 +23,16 @@ export default function DrawerMenu() {
       {/* Mobile Nav */}
       <ul className="menu p-4 w-full lg:hidden text-[#8B3A62] font-medium space-y-2">
         <li>
-          <Link href="/" className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">首頁</Link>
+          <Link href="/" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">首頁</Link>
         </li>
         <li>
-          <Link href="/creators" className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">創作者</Link>
+          <Link href="/creators" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">創作者</Link>
         </li>
         <li>
-          <Link href="/message-board" className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">留言板</Link>
+          <Link href="/message-board" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">留言板</Link>
         </li>
         <li>
-          <Link href="/creator-portal" className="rounded-xl bg-[#FF6FA7] text-white hover:bg-[#FF5B99] transition">創作者專區</Link>
+          <Link href="/creator-portal" onClick={closeDrawer} className="rounded-xl bg-[#FF6FA7] text-white hover:bg-[#FF5B99] transition">創作者專區</Link>
         </li>
       </ul>
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { Rabbit } from 'lucide-react';
 
 type Category = {
   id: string;
@@ -38,17 +39,25 @@ export default function Sidebar() {
 
   const mainCategories = allCategories.filter(c => c.parent_id === null);
 
+  const closeDrawer = () => {
+    const drawer = document.getElementById('main-drawer') as HTMLInputElement;
+    if (drawer) drawer.checked = false;
+  };
+
   return (
     <div className="flex flex-col h-full">
       <h2 className="font-bold text-xl text-[#8B3A62] mb-4 shrink-0 flex items-center gap-2">
-        🐰 分類
+        <Rabbit /> 分類
       </h2>
 
       <div className="flex-1 overflow-y-auto space-y-2 pr-1">
 
         {/* 全部 */}
         <button
-          onClick={() => setCategory("")}
+          onClick={() => {
+            setCategory("");
+            closeDrawer();
+          }}
           className={`
             w-full text-left px-4 py-3 rounded-2xl transition-all font-medium
             ${currentCat === ""
@@ -104,7 +113,10 @@ export default function Sidebar() {
                       return (
                         <li key={c.id}>
                           <button
-                            onClick={() => setCategory(c.id)}
+                            onClick={() => {
+                              setCategory(c.id);
+                              closeDrawer();
+                            }}
                             className={`
                               w-full text-left px-3 py-2 rounded-xl text-sm transition
                               ${childActive
