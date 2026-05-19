@@ -33,10 +33,17 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
         return matchedImages.map(img => ({ matchedImage: img, group: g }));
       }
 
-      const matchGroup = normalize(g.group_keyword).includes(normalize(q));
+      const normalizedQ = normalize(q);
+//注音搜尋
+      const matchGroup =
+        normalize(g.group_keyword).includes(normalizedQ) ||
+        normalize(g.group_keyword_zhuyin || "").includes(normalizedQ);
+
       if (matchGroup) {
-        const cover = g.images?.find(img => img.is_cover) ?? g.images?.[0];
-        return cover ? [{ matchedImage: cover, group: g }] : [];
+        return g.images?.map(img => ({
+          matchedImage: img,
+          group: g
+        })) ?? [];
       }
 
       return [];

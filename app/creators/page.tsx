@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Rabbit, Code2 } from 'lucide-react';
 
 type Creator = {
   id: string;
@@ -12,7 +13,7 @@ type Creator = {
   tags: string[];
   socials: { label: string; href: string }[];
   shopHref: string;
-  avatar: string;
+ avatar: React.ElementType;
 };
 
 const creators: Creator[] = [
@@ -28,7 +29,7 @@ const creators: Creator[] = [
       { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
     ],
     shopHref: '#',
-    avatar: '🐰',
+    avatar: Rabbit,
   },
   {
     id: 'aijoyzuo',
@@ -36,11 +37,11 @@ const creators: Creator[] = [
     nameEn: 'zuo',
     role: '網頁開發者',
     description:
-      '一名愛台人士，Happy End 工程師',
+      '一名愛台人士，Happy End Engineer',
     tags: ['Next.js', 'TypeScript', 'Supabase', '前端開發'],
     socials: [{ label: 'Plurk', href: 'https://www.plurk.com/Gitto' },{ label: 'Threads', href: 'https://www.threads.com/@zuo_aot?igshid=NTc4MTIwNjQ2YQ==' }],
     shopHref: '#',
-    avatar: '🛠️',
+    avatar: Code2,
   },
 ];
 
@@ -71,8 +72,8 @@ export default function CreatorsPage() {
 
                 {/* Avatar */}
                 <div className="flex-shrink-0">
-                  <div className="w-24 h-24 rounded-3xl bg-[#FFE9F1] border-2 border-[#FFB8D2] flex items-center justify-center text-5xl shadow-sm">
-                    {c.avatar}
+                  <div className="w-24 h-24 rounded-3xl text-[#8B3A62] bg-[#FFE9F1] border-2 border-[#FFB8D2] flex items-center justify-center text-5xl shadow-sm">
+                    <c.avatar size={42} strokeWidth={2.2} />
                   </div>
                 </div>
 
