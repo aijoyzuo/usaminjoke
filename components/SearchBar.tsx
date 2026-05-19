@@ -52,6 +52,7 @@ export default function SearchBar() {
           hover:bg-[#FF5B99]
           shadow-md hover:shadow-lg
           transition-all
+          cursor-pointer
         "
         onClick={handleSearch}
       >

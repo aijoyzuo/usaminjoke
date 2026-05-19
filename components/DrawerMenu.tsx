@@ -3,6 +3,7 @@
 import { Suspense } from 'react';
 import Link from "next/link";
 import Sidebar from "./Sidebar";
+import { Settings } from "lucide-react";
 
 const closeDrawer = () => {
   const drawer = document.getElementById('main-drawer') as HTMLInputElement;
@@ -14,7 +15,7 @@ export default function DrawerMenu() {
     <div className="w-64 bg-[#FFE9F1] h-screen flex flex-col overflow-hidden border-r-2 border-[#FFD1E0] shadow-lg">
 
       {/* Mobile Logo */}
-      <div className="lg:hidden p-5 border-b border-[#FFD1E0]">
+      <div className="lg:hidden p-5">
         <p className="text-2xl font-bold text-[#8B3A62] flex items-center gap-2">
           UsaminJoke
         </p>
@@ -32,11 +33,11 @@ export default function DrawerMenu() {
           <Link href="/message-board" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">留言板</Link>
         </li>
         <li>
-          <Link href="/creator-portal" onClick={closeDrawer} className="rounded-xl bg-[#FF6FA7] text-white hover:bg-[#FF5B99] transition">創作者專區</Link>
+          <Link href="/creator-portal" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"><Settings size={16}/></Link>
         </li>
       </ul>
 
-      <div className="mx-4 lg:hidden border-t border-[#FFD1E0]" />
+      <div className="mx-4 lg:hidden" />
 
       {/* Bunny Image */}
       <div className="p-4 hidden md:block">
