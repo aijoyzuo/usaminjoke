@@ -284,8 +284,8 @@ export default function AdminGroups() {
                           <button onClick={() => setCover(String(i), true)} className={`px-3 py-1.5 rounded-xl text-xs transition-all ${img.is_cover ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FF9BC1] text-[#D85D93]'}`}>
                             {img.is_cover ? '✓ 封面' : '設為封面'}
                           </button>
-                          <button onClick={() => removeNewImage(i)} className="p-1.5 rounded-xl border-2 border-red-300 text-red-500 hover:bg-red-50 transition-all">
-                            <Trash2 size={14} />
+                          <button onClick={() => removeNewImage(i)} className="p-1.5 rounded-xl text-xs border-2 border-red-300 text-red-500 hover:bg-red-400 hover:text-white transition-all cursor-pointer">
+                            刪除
                           </button>
                         </div>
                       </div>
