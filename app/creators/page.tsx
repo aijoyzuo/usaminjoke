@@ -122,7 +122,7 @@ export default function CreatorsPage() {
             className="rounded-3xl bg-white border-2 border-[#FFD1E0] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
           >
             <div className="sm:p-8 p-4">
-              <div className="flex flex-col sm:flex-row gap-6">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-6">
 
                 {/* Avatar */}
                 <div className="flex-shrink-0">
@@ -137,7 +137,7 @@ export default function CreatorsPage() {
                   {/* Name */}
                   <div>
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h2 className="text-2xl font-bold text-[#8B3A62]">
+                      <h2 className="text-2xl font-bold text-[#8B3A62] mt-1">
                         {c.name}
                       </h2>
                       <span className="text-sm text-[#C48AA3]">
@@ -210,13 +210,13 @@ export default function CreatorsPage() {
                 {/* Header */}
                 <div className="flex items-center gap-6">
                   <div className="flex-shrink-0">
-                    <div className="w-16 h-16 rounded-3xl text-[#8B3A62] bg-[#FFE9F1] border-2 border-[#FFB8D2] flex items-center justify-center shadow-sm">
+                    <div className="w-16 h-16 rounded-2xl text-[#8B3A62] bg-[#FFE9F1] border-2 border-[#FFB8D2] flex items-center justify-center shadow-sm">
                       <m.avatar size={30} strokeWidth={2.2} />
                     </div>
                   </div>
 
                   <div>
-                    <h2 className="text-2xl font-bold text-[#8B3A62]">
+                    <h2 className="text-2xl font-bold text-[#8B3A62] mt-1">
                       {m.name}
                     </h2>
                     <span className="text-sm text-[#C48AA3]">
