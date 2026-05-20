@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Rabbit, Code2 } from 'lucide-react';
+import { Rabbit, Code2, Sparkle } from 'lucide-react';
 
 type Creator = {
   id: string;
@@ -13,7 +13,17 @@ type Creator = {
   tags: string[];
   socials: { label: string; href: string }[];
   shopHref: string;
- avatar: React.ElementType;
+  avatar: React.ElementType;
+};
+
+type Member = {
+  id: string;
+  name: string;
+  nameEn: string;
+  description: string;
+  socials: { label: string; href: string }[];
+  shopHref: string;
+  avatar: React.ElementType;
 };
 
 const creators: Creator[] = [
@@ -39,9 +49,48 @@ const creators: Creator[] = [
     description:
       '一名愛台人士，Happy End Engineer',
     tags: ['Next.js', 'TypeScript', 'Supabase', '前端開發'],
-    socials: [{ label: 'Plurk', href: 'https://www.plurk.com/Gitto' },{ label: 'Threads', href: 'https://www.threads.com/@zuo_aot?igshid=NTc4MTIwNjQ2YQ==' }],
+    socials: [{ label: 'Plurk', href: 'https://www.plurk.com/Gitto' }, { label: 'Threads', href: 'https://www.threads.com/@zuo_aot?igshid=NTc4MTIwNjQ2YQ==' }],
     shopHref: '#',
     avatar: Code2,
+  },
+];
+
+const members: Member[] = [
+  {
+    id: 'rnio1',
+    name: '尼歐1',
+    nameEn: 'Rnio',
+    description:
+      '只寫一句只寫一句就好不然放不下',
+    socials: [
+      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+    ],
+    shopHref: '#',
+    avatar: Rabbit,
+  },
+  {
+    id: 'rnio2',
+    name: '尼歐2',
+    nameEn: 'Rnio',
+    description:
+      '只寫一句只寫一句就好不然放不下',
+    socials: [
+      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+    ],
+    shopHref: '#',
+    avatar: Rabbit,
+  },
+  {
+    id: 'rnio3',
+    name: '尼歐3',
+    nameEn: 'Rnio',
+    description:
+      '只寫一句只寫一句就好不然放不下',
+    socials: [
+      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+    ],
+    shopHref: '#',
+    avatar: Rabbit,
   },
 ];
 
@@ -56,9 +105,14 @@ export default function CreatorsPage() {
           <h1 className="text-4xl font-bold text-[#8B3A62]">
             創作者介紹
           </h1>
-          <p className="text-[#B76E8A] mt-3 text-lg">
-            認識 UsaminJoke 背後的創作者 ✨
-          </p>
+          <div className="text-[#B76E8A] mt-3 font-semibold flex items-center gap-2 justify-center">
+            <Sparkle size={16} />
+            <p className="text-lg">
+              小棧員工
+            </p>
+            <Sparkle size={16} />
+          </div>
+
         </div>
 
         {/* Creator Cards */}
@@ -67,7 +121,7 @@ export default function CreatorsPage() {
             key={c.id}
             className="rounded-3xl bg-white border-2 border-[#FFD1E0] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
           >
-            <div className="p-8">
+            <div className="sm:p-8 p-4">
               <div className="flex flex-col sm:flex-row gap-6">
 
                 {/* Avatar */}
@@ -114,29 +168,31 @@ export default function CreatorsPage() {
                   </div>
 
                   {/* Buttons */}
-                  <div className="flex flex-wrap gap-3 pt-2">
-                    {c.socials.map((s) => (
-                      <a
-                        key={s.label}
-                        href={s.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-4 py-2 rounded-xl border-2 border-[#FF9BC1] text-[#D85D93] hover:bg-[#FFE9F1] transition"
-                      >
-                        {s.label}
-                      </a>
-                    ))}
+                  <div className="flex flex-wrap sm:justify-between justify-end gap-3 pt-2">
+                    <div className='flex flex-wrap gap-2'>
+                      {c.socials.map((s) => (
+                        <a
+                          key={s.label}
+                          href={s.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-xl border-2 border-[#FF9BC1] text-[#D85D93] hover:bg-[#FFE9F1] transition"
+                        >
+                          {s.label}
+                        </a>
+                      ))}
+
+                    </div>
 
                     <a
                       href={c.shopHref}
-                      className={`px-4 py-2 rounded-xl font-medium transition
-                        ${
-                          c.shopHref === '#'
-                            ? 'bg-[#FFDDE8] text-[#C8A6B5] cursor-not-allowed'
-                            : 'bg-[#FF6FA7] text-white hover:bg-[#FF5B99]'
+                      className={`px-3 py-1.5 rounded-xl font-medium transition
+                        ${c.shopHref === '#'
+                          ? 'bg-[#FFDDE8] text-[#C8A6B5] cursor-not-allowed'
+                          : 'bg-[#FF6FA7] text-white hover:bg-[#FF5B99]'
                         }`}
                     >
-                      前往賣場
+                      賣場
                     </a>
                   </div>
                 </div>
@@ -145,6 +201,66 @@ export default function CreatorsPage() {
           </div>
         ))}
 
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {members.map((m) => (
+            <div
+              key={m.id}
+              className="rounded-3xl bg-white border-2 border-[#FFD1E0] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">              <div className="sm:p-8 p-4 h-full flex flex-col">
+
+                {/* Header */}
+                <div className="flex items-center gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 rounded-3xl text-[#8B3A62] bg-[#FFE9F1] border-2 border-[#FFB8D2] flex items-center justify-center shadow-sm">
+                      <m.avatar size={30} strokeWidth={2.2} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="text-2xl font-bold text-[#8B3A62]">
+                      {m.name}
+                    </h2>
+                    <span className="text-sm text-[#C48AA3]">
+                      @{m.nameEn}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="flex-1 mt-2">
+                  <p className="text-[#7A5167] leading-relaxed">
+                    {m.description}
+                  </p>
+                </div>
+
+                {/* Buttons 固定右下 */}
+                <div className="flex flex-wrap justify-end gap-3 pt-2 mt-auto">
+                  {m.socials.map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 rounded-xl border-2 border-[#FF9BC1] text-[#D85D93] hover:bg-[#FFE9F1] transition"
+                    >
+                      {s.label}
+                    </a>
+                  ))}
+
+                  <a
+                    href={m.shopHref}
+                    className={`px-3 py-1.5 rounded-xl font-medium transition flex items-center justify-center ${m.shopHref === '#'
+                      ? 'bg-[#FFDDE8] text-[#C8A6B5] cursor-not-allowed'
+                      : 'bg-[#FF6FA7] text-white hover:bg-[#FF5B99]'
+                      }`}
+                  >
+                    賣場
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

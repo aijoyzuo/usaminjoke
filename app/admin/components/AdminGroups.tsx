@@ -405,20 +405,22 @@ export default function AdminGroups() {
                   <p className="font-bold text-[#8B3A62] text-lg">{g.group_keyword}</p>
                   <p className="text-sm text-[#C48AA3]">
                     {g.group_keyword_zhuyin}
-                    {g.category_main && ` · ${getCategoryName(g.category_main)}`}
-                    {g.category_sub && ` / ${getCategoryName(g.category_sub)}`}
-                    {` · ${g.images?.length ?? 0} 張圖片`}
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => startEdit(g)} className="px-3 py-1.5 rounded-xl border-2 border-[#FF9BC1] text-[#D85D93] text-sm hover:bg-[#FFE9F1] transition-all cursor-pointer">編輯</button>
-                  <button onClick={() => deleteGroup(g.id)} className="px-3 py-1.5 rounded-xl border-2 border-red-300 text-red-500 text-sm hover:bg-red-50 transition-all cursor-pointer">刪除</button>
+                  <button onClick={() => startEdit(g)} className="px-3 py-1.5 rounded-xl border-2 border-[#FF9BC1] text-[#D85D93] text-sm hover:bg-[#FFE9F1] transition-all cursor-pointer text-nowrap">編輯</button>
+                  <button onClick={() => deleteGroup(g.id)} className="px-3 py-1.5 rounded-xl border-2 border-red-300 text-red-500 text-sm hover:bg-red-50 transition-all cursor-pointer text-nowrap">刪除</button>
                 </div>
               </div>
+              <p className="text-sm text-[#C48AA3]">
+                {g.category_main && ` ${getCategoryName(g.category_main)}`}
+                {g.category_sub && ` / ${getCategoryName(g.category_sub)}`}
+                {` · ${g.images?.length ?? 0} 張圖片`}
+              </p>
 
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {g.images?.sort((a, b) => a.order - b.order).map(img => (
-                  <div key={img.id} className="flex-shrink-0 text-center">
+                  <div key={img.id} className="flex-shrink-0 text-center p-1">
                     <img src={img.url} className={`w-16 h-16 object-cover rounded-xl ${img.is_cover ? 'ring-2 ring-[#FF6FA7]' : ''}`} />
                     <p className="text-xs text-[#C48AA3] mt-1 w-16 truncate">{img.title}</p>
                   </div>
