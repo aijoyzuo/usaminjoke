@@ -8,6 +8,7 @@ type ImageEntry = {
   url: string;
   title: string;
   isCover: boolean;
+  tags: string;  // 用逗號分隔的字串，存檔時再轉陣列
 };
 
 type Category = {
@@ -49,9 +50,11 @@ export default function AdminAddGroup() {
     setNewSubName(''); setShowAddSub(false); fetchCategories();
   };
 
-  const addImage = () => setImages(prev => [...prev, { url: '', title: '', isCover: prev.length === 0 }]);
+  const addImage = () => setImages(prev => [...prev, { url: '', title: '', isCover: prev.length === 0, tags: '' }]);
   const updateUrl = (i: number, url: string) => setImages(prev => prev.map((img, idx) => idx === i ? { ...img, url } : img));
   const updateTitle = (i: number, title: string) => setImages(prev => prev.map((img, idx) => idx === i ? { ...img, title } : img));
+  const updateTags = (i: number, tags: string) =>
+    setImages(prev => prev.map((img, idx) => idx === i ? { ...img, tags } : img));
   const setCover = (i: number) => setImages(prev => prev.map((img, idx) => ({ ...img, isCover: idx === i })));
   const removeImage = (i: number) => {
     setImages(prev => {
@@ -86,7 +89,8 @@ export default function AdminAddGroup() {
         const img = images[i];
         const { data: imageRow, error: imageError } = await supabase
           .from('images')
-          .insert({ group_id: group.id, title: img.title || `圖片 ${i + 1}`, url: img.url.trim(), order: i + 1, is_cover: img.isCover })
+          .insert({ group_id: group.id, title: img.title || `圖片 ${i + 1}`, url: img.url.trim(), order: i + 1, is_cover: img.isCover,tags: img.tags ? img.tags.split(',').map(t => t.trim()).filter(Boolean)
+      : [], })
           .select().single();
         if (imageError) throw imageError;
         if (img.isCover) coverId = imageRow.id;
@@ -173,6 +177,12 @@ export default function AdminAddGroup() {
                 <div className="flex-1 space-y-2">
                   <input className="w-full px-4 py-2 rounded-2xl border-2 border-[#FFD1E0] text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]" placeholder="圖片網址" value={img.url} onChange={e => updateUrl(i, e.target.value)} />
                   <input className="w-full px-4 py-2 rounded-2xl border-2 border-[#FFD1E0] text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]" placeholder="圖片標題" value={img.title} onChange={e => updateTitle(i, e.target.value)} />
+                  <input
+                    className="w-full px-4 py-2 rounded-2xl border-2 border-[#FFD1E0] text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]"
+                    placeholder="標籤（用逗號分隔，例：社畜,開心）"
+                    value={img.tags}
+                    onChange={(e) => updateTags(i, e.target.value)}
+                  />
                 </div>
               </div>
               <div className="flex gap-3 mt-3">
@@ -184,7 +194,7 @@ export default function AdminAddGroup() {
             </div>
           ))}
           <button onClick={addImage} className="w-full py-3 rounded-2xl border-2 border-dashed border-[#FF9BC1] text-[#D85D93] hover:bg-[#FFE9F1] transition-all flex items-center justify-center gap-2 cursor-pointer"> <Plus size={16} /> 新增圖片</button>
-          
+
         </div>
       </div>
 

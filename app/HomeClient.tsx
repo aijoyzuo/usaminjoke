@@ -26,7 +26,8 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
       }
 
       const matchedImages = g.images?.filter(img =>
-        normalize(img.title).includes(normalize(q))
+        normalize(img.title).includes(normalize(q)) ||
+        img.tags?.some(tag => normalize(tag).includes(normalize(q)))  
       ) ?? [];
 
       if (matchedImages.length > 0) {
@@ -34,7 +35,7 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
       }
 
       const normalizedQ = normalize(q);
-//注音搜尋
+      //注音搜尋
       const matchGroup =
         normalize(g.group_keyword).includes(normalizedQ) ||
         normalize(g.group_keyword_zhuyin || "").includes(normalizedQ);

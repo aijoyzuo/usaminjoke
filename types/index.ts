@@ -16,6 +16,7 @@ export type MemeImage = {
   id: string
   group_id: string
   title: string
+  tags: string[]    // ← 新增
   url: string
   order: number
   is_cover: boolean

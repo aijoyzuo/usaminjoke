@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { ChevronLeft, ChevronRight, Plus, Trash2, Save, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Save, X } from 'lucide-react';
 
 type Image = {
   id: string;
@@ -10,6 +10,7 @@ type Image = {
   url: string;
   order: number;
   is_cover: boolean;
+  tags: string[];
 };
 
 type Group = {
@@ -43,19 +44,23 @@ export default function AdminGroups() {
   const [editCategoryMain, setEditCategoryMain] = useState('');
   const [editCategorySub, setEditCategorySub] = useState('');
   const [editImages, setEditImages] = useState<Image[]>([]);
-  const [newImages, setNewImages] = useState<{ url: string; title: string; is_cover: boolean }[]>([]);
+  const [editImageTags, setEditImageTags] = useState<Record<string, string>>({});
+  const [newImages, setNewImages] = useState<{
+    url: string;
+    title: string;
+    is_cover: boolean;
+    tags: string;
+  }[]>([]);
 
   const fetchGroups = async (p = 0) => {
     setLoading(true);
     const from = p * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
-
     const { data, count } = await supabase
       .from('image_groups')
       .select('*, images(*)', { count: 'exact' })
       .order('created_at', { ascending: false })
       .range(from, to);
-
     if (data) setGroups(data);
     if (count !== null) setTotal(count);
     setLoading(false);
@@ -79,15 +84,22 @@ export default function AdminGroups() {
     setEditCategorySub(g.category_sub ?? '');
     setEditImages(g.images?.sort((a, b) => a.order - b.order) ?? []);
     setNewImages([]);
+
+    // 初始化 tags 暫存字串
+    const tagsMap: Record<string, string> = {};
+    g.images?.forEach(img => {
+      tagsMap[img.id] = img.tags?.join(', ') ?? '';
+    });
+    setEditImageTags(tagsMap);
   };
 
   const cancelEdit = () => {
     setEditingId(null);
     setNewImages([]);
+    setEditImageTags({});
   };
 
   const saveEdit = async (id: string) => {
-    // 更新圖組基本資料
     await supabase
       .from('image_groups')
       .update({
@@ -98,15 +110,20 @@ export default function AdminGroups() {
       })
       .eq('id', id);
 
-    // 更新既有圖片
     for (const img of editImages) {
       await supabase
         .from('images')
-        .update({ title: img.title, url: img.url, is_cover: img.is_cover })
+        .update({
+          title: img.title,
+          url: img.url,
+          is_cover: img.is_cover,
+          tags: editImageTags[img.id]
+            ? editImageTags[img.id].split(/[,，]/).map(t => t.trim()).filter(Boolean)
+            : [],
+        })
         .eq('id', img.id);
     }
 
-    // 新增新圖片
     if (newImages.length > 0) {
       const maxOrder = Math.max(...editImages.map(i => i.order), 0);
       for (let i = 0; i < newImages.length; i++) {
@@ -117,11 +134,13 @@ export default function AdminGroups() {
           url: img.url,
           order: maxOrder + i + 1,
           is_cover: img.is_cover,
+          tags: img.tags
+            ? img.tags.split(/[,，]/).map(t => t.trim()).filter(Boolean)
+            : [],
         });
       }
     }
 
-    // 更新封面 id
     const allImages = [...editImages, ...newImages];
     const cover = allImages.find(img => img.is_cover);
     if (cover && 'id' in cover) {
@@ -130,6 +149,7 @@ export default function AdminGroups() {
 
     setEditingId(null);
     setNewImages([]);
+    setEditImageTags({});
     fetchGroups(page);
   };
 
@@ -140,8 +160,14 @@ export default function AdminGroups() {
   };
 
   const deleteImage = async (imgId: string) => {
+    if (!confirm('確定要刪除這張圖片嗎？')) return;
     await supabase.from('images').delete().eq('id', imgId);
     setEditImages(prev => prev.filter(i => i.id !== imgId));
+    setEditImageTags(prev => {
+      const next = { ...prev };
+      delete next[imgId];
+      return next;
+    });
   };
 
   const setCover = (imgId: string, isNew = false) => {
@@ -155,11 +181,13 @@ export default function AdminGroups() {
   };
 
   const addNewImage = () => {
-    setNewImages(prev => [...prev, { url: '', title: '', is_cover: false }]);
+    setNewImages(prev => [...prev, { url: '', title: '', is_cover: false, tags: '' }]);
   };
 
-  const updateNewImage = (index: number, field: 'url' | 'title', value: string) => {
-    setNewImages(prev => prev.map((img, i) => i === index ? { ...img, [field]: value } : img));
+  const updateNewImage = (index: number, field: 'url' | 'title' | 'tags', value: string) => {
+    setNewImages(prev => prev.map((img, i) =>
+      i === index ? { ...img, [field]: value } : img
+    ));
   };
 
   const removeNewImage = (index: number) => {
@@ -176,7 +204,6 @@ export default function AdminGroups() {
   return (
     <div className="space-y-4">
 
-      {/* 分頁資訊 */}
       <div className="flex justify-between items-center">
         <p className="text-sm text-[#C48AA3]">共 {total} 個圖組</p>
         <div className="flex items-center gap-2">
@@ -208,10 +235,8 @@ export default function AdminGroups() {
         <div key={g.id} className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-5 space-y-4">
 
           {editingId === g.id ? (
-            // 編輯模式
             <div className="space-y-4">
 
-              {/* 基本資料 */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs text-[#C48AA3] mb-1 block">關鍵字</label>
@@ -247,17 +272,45 @@ export default function AdminGroups() {
                   {editImages.map(img => (
                     <div key={img.id} className={`p-3 rounded-2xl border-2 ${img.is_cover ? 'border-[#FF6FA7] bg-[#FFF0F6]' : 'border-[#FFD1E0]'}`}>
                       <div className="flex gap-3">
-                        {img.url && <img src={img.url} className="w-16 h-16 object-cover rounded-xl flex-shrink-0" onError={e => (e.currentTarget.style.display = 'none')} />}
+                        {img.url && (
+                          <img
+                            src={img.url}
+                            className="w-16 h-16 object-cover rounded-xl flex-shrink-0"
+                            onError={e => (e.currentTarget.style.display = 'none')}
+                          />
+                        )}
                         <div className="flex-1 space-y-1.5">
-                          <input className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]" placeholder="圖片網址" value={img.url} onChange={e => setEditImages(prev => prev.map(i => i.id === img.id ? { ...i, url: e.target.value } : i))} />
-                          <input className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]" placeholder="圖片標題" value={img.title} onChange={e => setEditImages(prev => prev.map(i => i.id === img.id ? { ...i, title: e.target.value } : i))} />
+                          <input
+                            className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]"
+                            placeholder="圖片網址"
+                            value={img.url}
+                            onChange={e => setEditImages(prev => prev.map(i => i.id === img.id ? { ...i, url: e.target.value } : i))}
+                          />
+                          <input
+                            className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]"
+                            placeholder="圖片標題"
+                            value={img.title}
+                            onChange={e => setEditImages(prev => prev.map(i => i.id === img.id ? { ...i, title: e.target.value } : i))}
+                          />
+                          <input
+                            className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]"
+                            placeholder="標籤（用逗號分隔，例：社畜,開心）"
+                            value={editImageTags[img.id] ?? ''}
+                            onChange={e => setEditImageTags(prev => ({ ...prev, [img.id]: e.target.value }))}
+                          />
                         </div>
                       </div>
                       <div className="flex gap-2 mt-2">
-                        <button onClick={() => setCover(img.id)} className={`px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${img.is_cover ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FF9BC1] text-[#D85D93]'}`}>
+                        <button
+                          onClick={() => setCover(img.id)}
+                          className={`px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${img.is_cover ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FF9BC1] text-[#D85D93]'}`}
+                        >
                           {img.is_cover ? '✓ 封面' : '設為封面'}
                         </button>
-                        <button onClick={() => deleteImage(img.id)} className="p-1.5 rounded-xl text-xs border-2 border-red-300 text-red-500 hover:bg-red-400 hover:text-white transition-all cursor-pointer">
+                        <button
+                          onClick={() => deleteImage(img.id)}
+                          className="px-3 py-1.5 rounded-xl text-xs border-2 border-red-300 text-red-500 hover:bg-red-400 hover:text-white transition-all cursor-pointer"
+                        >
                           刪除
                         </button>
                       </div>
@@ -274,17 +327,45 @@ export default function AdminGroups() {
                     {newImages.map((img, i) => (
                       <div key={i} className={`p-3 rounded-2xl border-2 ${img.is_cover ? 'border-[#FF6FA7] bg-[#FFF0F6]' : 'border-[#FFD1E0]'}`}>
                         <div className="flex gap-3">
-                          {img.url && <img src={img.url} className="w-16 h-16 object-cover rounded-xl flex-shrink-0" onError={e => (e.currentTarget.style.display = 'none')} />}
+                          {img.url && (
+                            <img
+                              src={img.url}
+                              className="w-16 h-16 object-cover rounded-xl flex-shrink-0"
+                              onError={e => (e.currentTarget.style.display = 'none')}
+                            />
+                          )}
                           <div className="flex-1 space-y-1.5">
-                            <input className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none" placeholder="圖片網址" value={img.url} onChange={e => updateNewImage(i, 'url', e.target.value)} />
-                            <input className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none" placeholder="圖片標題" value={img.title} onChange={e => updateNewImage(i, 'title', e.target.value)} />
+                            <input
+                              className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]"
+                              placeholder="圖片網址"
+                              value={img.url}
+                              onChange={e => updateNewImage(i, 'url', e.target.value)}
+                            />
+                            <input
+                              className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]"
+                              placeholder="圖片標題"
+                              value={img.title}
+                              onChange={e => updateNewImage(i, 'title', e.target.value)}
+                            />
+                            <input
+                              className="w-full px-3 py-1.5 rounded-xl border-2 border-[#FFD1E0] text-sm text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]"
+                              placeholder="標籤（用逗號分隔，例：社畜,開心）"
+                              value={img.tags ?? ''}
+                              onChange={e => updateNewImage(i, 'tags', e.target.value)}
+                            />
                           </div>
                         </div>
                         <div className="flex gap-2 mt-2">
-                          <button onClick={() => setCover(String(i), true)} className={`px-3 py-1.5 rounded-xl text-xs transition-all ${img.is_cover ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FF9BC1] text-[#D85D93]'}`}>
+                          <button
+                            onClick={() => setCover(String(i), true)}
+                            className={`px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer ${img.is_cover ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FF9BC1] text-[#D85D93]'}`}
+                          >
                             {img.is_cover ? '✓ 封面' : '設為封面'}
                           </button>
-                          <button onClick={() => removeNewImage(i)} className="p-1.5 rounded-xl text-xs border-2 border-red-300 text-red-500 hover:bg-red-400 hover:text-white transition-all cursor-pointer">
+                          <button
+                            onClick={() => removeNewImage(i)}
+                            className="px-3 py-1.5 rounded-xl text-xs border-2 border-red-300 text-red-500 hover:bg-red-400 hover:text-white transition-all cursor-pointer"
+                          >
                             刪除
                           </button>
                         </div>
@@ -294,22 +375,30 @@ export default function AdminGroups() {
                 </div>
               )}
 
-              <button onClick={addNewImage} className="w-full py-2.5 rounded-2xl border-2 border-dashed border-[#FF9BC1] text-[#D85D93] text-sm hover:bg-[#FFE9F1] transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <button
+                onClick={addNewImage}
+                className="w-full py-2.5 rounded-2xl border-2 border-dashed border-[#FF9BC1] text-[#D85D93] text-sm hover:bg-[#FFE9F1] transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
                 <Plus size={16} /> 新增圖片
               </button>
 
               <div className="flex gap-2">
-                <button onClick={() => saveEdit(g.id)} className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#FF6FA7] text-white text-sm hover:bg-[#FF5B99] transition-all cursor-pointer">
+                <button
+                  onClick={() => saveEdit(g.id)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#FF6FA7] text-white text-sm hover:bg-[#FF5B99] transition-all cursor-pointer"
+                >
                   <Save size={16} /> 儲存
                 </button>
-                <button onClick={cancelEdit} className="flex items-center gap-2 px-4 py-2 rounded-2xl border-2 border-[#FFD1E0] text-[#C48AA3] text-sm cursor-pointer">
+                <button
+                  onClick={cancelEdit}
+                  className="flex items-center gap-2 px-4 py-2 rounded-2xl border-2 border-[#FFD1E0] text-[#C48AA3] text-sm cursor-pointer"
+                >
                   <X size={16} /> 取消
                 </button>
               </div>
             </div>
 
           ) : (
-            // 顯示模式
             <>
               <div className="flex justify-between items-start">
                 <div>
@@ -340,7 +429,6 @@ export default function AdminGroups() {
         </div>
       ))}
 
-      {/* 下方分頁 */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-2 pt-2">
           <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all">
