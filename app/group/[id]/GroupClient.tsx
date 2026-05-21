@@ -39,7 +39,7 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
 
   return (
     <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
-    bg-[size:30px_30px] p-6 space-y-8">  
+    bg-[size:30px_30px] p-6 space-y-8">
 
       {/* Header */}
       <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] px-6 py-4 shadow-md">
@@ -49,7 +49,7 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 lg:gap-6">
         {group.images?.map((img) => {
           const isHighlighted = img.id === highlight;
 
@@ -80,9 +80,11 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
               />
 
               {/* Title */}
-              {/* <p className="text-sm font-semibold text-[#8B3A62] mt-3 truncate">
-                {img.title}
-              </p> */}
+              <p className="text-sm font-semibold text-[#D85D93] mt-3 truncate text-right mr-2">
+                {img.tags
+                  ?.map(tag => `#${tag}`)
+                  .join(' ')}
+              </p>
 
               {/* Buttons */}
               <div className="flex gap-2 mt-3">

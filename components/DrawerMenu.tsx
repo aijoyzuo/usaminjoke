@@ -30,7 +30,7 @@ export default function DrawerMenu() {
           <Link href="/creators" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">創作者</Link>
         </li>
         <li>
-          <Link href="/message-board" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">留言板</Link>
+          <Link href="/messageboard" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">留言板</Link>
         </li>
         <li>
           <Link href="/creator-portal" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition"><Settings size={16}/></Link>

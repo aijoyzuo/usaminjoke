@@ -97,11 +97,11 @@ const members: Member[] = [
 export default function CreatorsPage() {
   return (
     <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
-    bg-[size:28px_28px] py-16 px-6">
+    bg-[size:28px_28px] p-6">
       <div className="max-w-7xl mx-auto space-y-8">
 
         {/* Header */}
-        <div className="text-center mb-14">
+        <div className="text-center  mb-6 sm:mb-10">
           <h1 className="text-4xl font-bold text-[#8B3A62]">
             創作者介紹
           </h1>
