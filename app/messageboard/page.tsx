@@ -1,7 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import {  Popcorn, Carrot, Croissant, CupSoda, Clover, Send,} from 'lucide-react';
+import { Popcorn, Carrot, Croissant, CupSoda, Clover, type LucideIcon } from 'lucide-react';
+
+const iconMap: Record<string, LucideIcon> = {
+  Popcorn, Carrot, Croissant, CupSoda, Clover
+};
 
 type Message = {
   id: number;
@@ -38,7 +42,7 @@ export default function MessageBoardPage() {
   ]);
 
   const [text, setText] = useState('');
-  const [selectedAvatar, setSelectedAvatar] = useState(Carrot);
+  const [selectedAvatar, setSelectedAvatar] = useState<string>('Carrot');
 
   const avatars = [Popcorn, Carrot, Croissant,CupSoda,Clover];
 
