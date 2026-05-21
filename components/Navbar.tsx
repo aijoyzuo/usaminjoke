@@ -49,7 +49,7 @@ export default function Navbar() {
 
           <li>
             <Link
-              href="/message-board"
+              href="/messageboard"
               className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition flex items-center"
             >
               <MessageSquareHeart size={18} />
