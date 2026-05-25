@@ -8,7 +8,7 @@ type ImageEntry = {
   url: string;
   title: string;
   isCover: boolean;
-  tags: string;  // 用逗號分隔的字串，存檔時再轉陣列
+  tags: string;  
 };
 
 type Category = {

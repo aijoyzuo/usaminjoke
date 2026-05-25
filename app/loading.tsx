@@ -8,7 +8,7 @@ export default function Loading() {
           className="w-40 mx-auto"
         />
         <p className="text-[#D85D93] font-medium animate-pulse">
-          莎敏正在為你拼命
+          敏想中……
         </p>
       </div>
     </div>
