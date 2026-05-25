@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Popcorn, Carrot, Croissant, CupSoda, Clover, Send, Sparkle, ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 const MAX_NAME_LENGTH = 10;
 const MAX_TEXT_LENGTH = 30;
@@ -14,44 +15,54 @@ const iconMap: Record<string, LucideIcon> = {
 const avatarNames = ['Popcorn', 'Carrot', 'Croissant', 'CupSoda', 'Clover'];
 
 type Message = {
-  id: number;
+  id: string;
   name: string;
   avatar: string;
   content: string;
-  time: string;
+  created_at: string;
 };
 
 export default function MessageBoardPage() {
-
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 1, name: '兔兔', avatar: 'Popcorn', content: '今天笑到不行 XD', time: '5 分鐘前' },
-    { id: 2, name: '倉鼠', avatar: 'Popcorn', content: '這網站太可愛了吧', time: '12 分鐘前' },
-    { id: 3, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 4, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 5, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 6, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 7, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 8, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 9, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 10, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 11, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 12, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 13, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 14, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 15, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 16, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-    { id: 17, name: '狗狗', avatar: 'Croissant', content: '有點太多諧音梗了我快不行', time: '20 分鐘前' },
-  ]);
-
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [total, setTotal] = useState(0);
   const [name, setName] = useState('');
   const [text, setText] = useState('');
   const [selectedAvatar, setSelectedAvatar] = useState<string>('Carrot');
   const [page, setPage] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
 
-  const totalPages = Math.ceil(messages.length / PAGE_SIZE);
-  const pagedMessages = messages.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
-  const handleSubmit = () => {
+  const fetchMessages = async (p = 0) => {
+    setLoading(true);
+    const from = p * PAGE_SIZE;
+    const to = from + PAGE_SIZE - 1;
+
+    const { data, count } = await supabase
+      .from('messages')
+      .select('*', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .range(from, to);
+
+    if (data) setMessages(data);
+    if (count !== null) setTotal(count);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchMessages(page);
+  }, [page]);
+
+  const formatTime = (dateStr: string) => {
+    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+    if (diff < 60) return '剛剛';
+    if (diff < 3600) return `${Math.floor(diff / 60)} 分鐘前`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} 小時前`;
+    return `${Math.floor(diff / 86400)} 天前`;
+  };
+
+  const handleSubmit = async () => {
     if (!text.trim()) {
       alert('請輸入留言內容！');
       return;
@@ -61,18 +72,25 @@ export default function MessageBoardPage() {
       return;
     }
 
-    const finalName = name.trim() || '匿名兔兔';
-    setMessages(prev => [{
-      id: Date.now(),
-      name: finalName,
+    setSubmitting(true);
+
+    const { error } = await supabase.from('messages').insert({
+      name: name.trim() || '匿名兔兔',
       avatar: selectedAvatar,
       content: text.trim(),
-      time: '剛剛',
-    }, ...prev]);
+    });
+
+    if (error) {
+      alert('送出失敗，請再試一次');
+      setSubmitting(false);
+      return;
+    }
 
     setName('');
     setText('');
-    setPage(0);  // 新留言後跳回第一頁
+    setPage(0);
+    fetchMessages(0);
+    setSubmitting(false);
   };
 
   return (
@@ -92,8 +110,7 @@ export default function MessageBoardPage() {
       {/* 輸入區 */}
       <div className="max-w-7xl mx-auto bg-white border-2 border-[#FFD1E0] rounded-3xl p-5 sm:p-10 shadow-md mb-8">
         <div className='flex items-center'>
-          <div className='mb-2 font-bold text-[#8B3A62] hidden sm:flex'>選擇頭像：
-          </div>
+          <div className='mb-2 font-bold text-[#8B3A62] hidden sm:flex'>選擇頭像：</div>
           <div className="flex-1 flex justify-between sm:justify-start gap-3 mb-2">
             {avatarNames.map(name => {
               const Icon = iconMap[name];
@@ -102,12 +119,12 @@ export default function MessageBoardPage() {
                   key={name}
                   onClick={() => setSelectedAvatar(name)}
                   className={`
-                  w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition cursor-pointer
-                  ${selectedAvatar === name
+                    w-12 h-12 rounded-2xl border-2 flex items-center justify-center transition cursor-pointer
+                    ${selectedAvatar === name
                       ? 'border-[#FF6FA7] bg-[#FFE9F1]'
                       : 'border-[#FFD1E0] hover:bg-[#FFE9F1]'
                     }
-                `}
+                  `}
                 >
                   <Icon size={22} className="text-[#D85D93]" />
                 </button>
@@ -115,7 +132,6 @@ export default function MessageBoardPage() {
             })}
           </div>
         </div>
-
 
         <input
           value={name}
@@ -136,40 +152,49 @@ export default function MessageBoardPage() {
         <div className="flex justify-end mt-2">
           <button
             onClick={handleSubmit}
-            className="px-5 py-3 rounded-2xl bg-[#FF6FA7] text-white flex items-center gap-2 hover:bg-[#FF5B99] transition cursor-pointer"
+            disabled={submitting}
+            className="px-5 py-3 rounded-2xl bg-[#FF6FA7] text-white flex items-center gap-2 hover:bg-[#FF5B99] transition cursor-pointer disabled:opacity-50"
           >
             <Send size={18} />
-            送出留言
+            {submitting ? '送出中...' : '送出留言'}
           </button>
         </div>
       </div>
 
       {/* 留言列表 */}
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
-          {pagedMessages.map(msg => {
-            const Avatar = iconMap[msg.avatar];
-            return (
-              <div
-                key={msg.id}
-                className="break-inside-avoid mb-4 bg-white rounded-3xl border-2 border-[#FFD1E0] p-4 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-[#FFE9F1] border border-[#FFD1E0] flex items-center justify-center flex-shrink-0">
-                    <Avatar size={22} className="text-[#D85D93]" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-center gap-2">
-                      <p className="font-bold text-[#8B3A62]">{msg.name}</p>
-                      <span className="hidden sm:block text-xs text-[#C48AA3]">{msg.time}</span>
+        {loading ? (
+          <div className="text-center text-[#C48AA3] py-10">載入中...</div>
+        ) : messages.length === 0 ? (
+          <div className="text-center text-[#C48AA3] py-10">還沒有留言，來第一個留言吧！</div>
+        ) : (
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
+            {messages.map(msg => {
+              const Avatar = iconMap[msg.avatar] ?? Carrot;
+              return (
+                <div
+                  key={msg.id}
+                  className="break-inside-avoid mb-4 bg-white rounded-3xl border-2 border-[#FFD1E0] p-4 shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all"
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-[#FFE9F1] border border-[#FFD1E0] flex items-center justify-center flex-shrink-0">
+                      <Avatar size={22} className="text-[#D85D93]" />
                     </div>
-                    <p className="text-[#7A5167] mt-2 leading-relaxed break-words">{msg.content}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-center gap-2">
+                        <p className="font-bold text-[#8B3A62]">{msg.name}</p>
+                        <span className="hidden sm:block text-xs text-[#C48AA3]">
+                          {formatTime(msg.created_at)}
+                        </span>
+                      </div>
+                      <p className="text-[#7A5167] mt-2 leading-relaxed break-words">{msg.content}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* 分頁 */}
         {totalPages > 1 && (
@@ -186,10 +211,11 @@ export default function MessageBoardPage() {
               <button
                 key={i}
                 onClick={() => setPage(i)}
-                className={`w-8 h-8 rounded-xl text-sm font-medium transition-all ${page === i
+                className={`w-8 h-8 rounded-xl text-sm font-medium transition-all ${
+                  page === i
                     ? 'bg-[#FF6FA7] text-white'
                     : 'border-2 border-[#FFD1E0] text-[#D85D93] hover:bg-[#FFE9F1]'
-                  }`}
+                }`}
               >
                 {i + 1}
               </button>
@@ -205,7 +231,6 @@ export default function MessageBoardPage() {
           </div>
         )}
       </div>
-
     </div>
   );
 }

@@ -33,7 +33,7 @@ const creators: Creator[] = [
     nameEn: 'usaminjoke',
     role: '諧音梗圖創作者',
     description:
-      '專門製作台灣諧音梗圖的創作者，在 Threads 上以 @usaminjoke 活躍，用文字與圖像把日常生活中的語言巧合變成讓人噴飯的梗。',
+      '專門製作台灣諧音梗圖的創作者，但是無斷轉載的帳號讚數都比本人多，想想又覺得大家開心也好，又哭又笑地過每一天。',
     tags: ['諧音梗', '台灣創作', '圖文', 'Threads'],
     socials: [
       { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
@@ -58,10 +58,10 @@ const creators: Creator[] = [
 const members: Member[] = [
   {
     id: 'rnio1',
-    name: '尼歐1',
+    name: '尼歐',
     nameEn: 'Rnio',
     description:
-      '只寫一句只寫一句就好不然放不下',
+      '經營胖胖咪復育中心。',
     socials: [
       { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
     ],
@@ -70,10 +70,10 @@ const members: Member[] = [
   },
   {
     id: 'rnio2',
-    name: '尼歐2',
-    nameEn: 'Rnio',
+    name: 'woffy',
+    nameEn: 'woffymilk',
     description:
-      '只寫一句只寫一句就好不然放不下',
+      '知名podcaster。',
     socials: [
       { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
     ],
@@ -82,10 +82,10 @@ const members: Member[] = [
   },
   {
     id: 'rnio3',
-    name: '尼歐3',
-    nameEn: 'Rnio',
+    name: '阿慈',
+    nameEn: 'daymimeda',
     description:
-      '只寫一句只寫一句就好不然放不下',
+      '台北如同不乾的乾麵，在盆底擁有過多的水分。',
     socials: [
       { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
     ],
