@@ -96,6 +96,30 @@ const members: Member[] = [
     shopHref: '#',
     avatar: Rabbit,
   },
+   {
+    id: 'rnio4',
+    name: '牛志郎',
+    nameEn: '億載京城午',
+    description:
+      '府城里維老師',
+    socials: [
+      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+    ],
+    shopHref: '#',
+    avatar: Rabbit,
+  },
+   {
+    id: 'rnio5',
+    name: '不妙',
+    nameEn: 'prmyau',
+    description:
+      '亞洲最大漢化組',
+    socials: [
+      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+    ],
+    shopHref: '#',
+    avatar: Rabbit,
+  },
 ];
 
 export default function CreatorsClient() {
