@@ -6,8 +6,21 @@ import DrawerMenu from "@/components/DrawerMenu";
 
 
 export const metadata: Metadata = {
-  title: "UsamiJoke",
-  description: "諧音暨梗圖搜尋網站",
+  title: {
+    default: "吳莎敏｜諧音梗圖搜尋",
+    template: "%s｜UsaminJoke",  // 各分頁標題會套這個格式
+  },
+  description: "諧音梗圖搜尋網站，收錄吳莎敏創作的各種諧音梗圖",
+  keywords: ["諧音梗", "梗圖", "台灣", "吳莎敏", "usaminjoke","新細敏體","輕鬆小棧"],
+  authors: [{ name: "usaminjoke" }],
+  openGraph: {
+    title: "吳莎敏｜諧音梗圖搜尋",
+    description: "台灣最好笑的諧音梗圖搜尋網站",
+    url: "https://usaminjoke.vercel.app/",
+    siteName: "UsaminJoke",
+    locale: "zh_TW",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
