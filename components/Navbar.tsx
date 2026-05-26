@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { HouseHeart, Rabbit, MessageSquareHeart, Settings, PenTool } from "lucide-react";
-
+import AdminLink from '@/components/AdminLink';
 
 
 export default function Navbar() {
@@ -61,26 +61,7 @@ export default function Navbar() {
 
       {/* Right */}
       <div className="navbar-end hidden lg:flex">
-        <Link
-          href="/admin/login"
-          aria-label="管理後台"
-          className="
-          w-8 h-8
-          flex items-center justify-center
-          rounded-full
-          
-          text-2xl
-          text-[#FF6FA7]
-          bg-transparent
-          hover:text-[#ffffff]
-          hover:bg-[#FF6FA7]
-          
-          hover:scale-110
-          transition-all duration-300
-        "
-        >
-          <Settings />
-        </Link>
+        <AdminLink />
       </div>
     </div>
   );
