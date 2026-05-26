@@ -123,7 +123,7 @@ export default function AdminAddGroup() {
     <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] shadow-md p-8 space-y-6">
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="text-sm text-[#C48AA3] mb-2 block">關鍵字 *</label>
+          <label className="text-sm text-[#C48AA3] mb-2 block">圖組名稱 *</label>
           <input className="w-full px-4 py-3 rounded-2xl border-2 border-[#FFD1E0] text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]" placeholder="例：蟹" value={keyword} onChange={e => setKeyword(e.target.value)} />
         </div>
         <div>

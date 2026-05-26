@@ -74,7 +74,7 @@ export default function AdminPage() {
           </div>
           <button
             onClick={handleLogout}
-            className="px-5 py-2 rounded-2xl border-2 border-[#FF9BC1] text-[#D85D93] hover:bg-[#FF6FA7] hover:text-white hover:border-[#FF6FA7] transition-all"
+            className="px-5 py-2 rounded-2xl border-2 border-[#FF9BC1] text-[#D85D93] hover:bg-[#FF6FA7] hover:text-white hover:border-[#FF6FA7] transition-all cursor-pointer"
           >
             登出
           </button>
@@ -88,7 +88,7 @@ export default function AdminPage() {
               onClick={() => setTab(t.id)}
               className={`
               flex items-center gap-2
-              px-5 py-2.5 rounded-2xl text-sm font-medium transition-all
+              px-5 py-2.5 rounded-2xl text-sm font-medium transition-all cursor-pointer
               ${tab === t.id
                   ? 'bg-[#FF6FA7] text-white shadow-md'
                   : 'bg-white border-2 border-[#FFD1E0] text-[#D85D93] hover:bg-[#FFE9F1]'

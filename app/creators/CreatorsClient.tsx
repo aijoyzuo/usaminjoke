@@ -1,7 +1,7 @@
 'use client';
 
 
-import { Rabbit, Code2, Sparkle,Handshake,Cat,Soup } from 'lucide-react';
+import { Rabbit, Code2, Sparkle,Handshake,Cat,Soup,Dog } from 'lucide-react';
 import WelcomeBanner from '@/components/WelcomeBanner';
 
 type Creator = {
@@ -73,12 +73,12 @@ const members: Member[] = [
     name: 'woffy',
     nameEn: 'woffymilk',
     description:
-      '知名podcaster。',
+      '養了貓的犬派',
     socials: [
-      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+      { label: 'Plurk', href: 'https://www.plurk.com/woffymilk' },
     ],
     shopHref: '#',
-    avatar: Rabbit,
+    avatar: Dog,
   },
   {
     id: 'rnio3',

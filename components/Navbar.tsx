@@ -1,11 +1,20 @@
+'use client';
+
 import Link from "next/link";
-import { HouseHeart, Rabbit, MessageSquareHeart, Settings, PenTool } from "lucide-react";
+import { HouseHeart, Rabbit, MessageSquareHeart, PenTool, Menu } from "lucide-react";
 import AdminLink from '@/components/AdminLink';
 
+const closeDrawer = () => {
+  const drawer = document.getElementById('main-drawer') as HTMLInputElement;
+  if (drawer) drawer.checked = false;
+};
 
 export default function Navbar() {
   return (
-    <div className="navbar bg-[#FFD1E0] px-6 py-3 border-b-2 border-[#FFD1E0] shadow-sm sticky top-0 z-50 backdrop-blur-md">
+
+    <div className="navbar bg-[#FFD1E0] bg-[radial-gradient(#FFF5F8_10%,transparent_11%),radial-gradient(#FFF5F8_10%,transparent_11%)]
+bg-[position:0_0,80px_80px]
+bg-[size:130px_130px] px-6 py-3 border-b-2 border-[#FFD1E0] shadow-sm sticky top-0 z-50 backdrop-blur-md">
 
       {/* Left */}
       <div className="navbar-start">
@@ -13,14 +22,15 @@ export default function Navbar() {
           htmlFor="main-drawer"
           className="btn btn-ghost lg:hidden text-[#8B3A62] hover:bg-[#FFE9F1] border-none"
         >
-          ☰
+          <Menu strokeWidth={3} />
         </label>
 
         <Link
           href="/"
-          className="text-2xl font-bold text-[#8B3A62] tracking-tight flex items-center gap-2"
+          className="absolute left-1/2 -translate-x-1/2
+      lg:static lg:translate-x-0 text-2xl font-bold text-[#8B3A62] tracking-tight flex items-center gap-2"
         >
-          <span className="text-nowrap flex gap-1 items-center"><Rabbit />救渴の輕鬆小棧</span>
+          <span onClick={closeDrawer} className="text-nowrap flex gap-1 items-center"><Rabbit />救渴の輕鬆小棧</span>
         </Link>
       </div>
 
@@ -64,5 +74,6 @@ export default function Navbar() {
         <AdminLink />
       </div>
     </div>
+
   );
 }

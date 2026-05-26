@@ -12,7 +12,7 @@ const closeDrawer = () => {
 
 export default function DrawerMenu() {
   return (
-    <div className="w-64 bg-[#FFE9F1] h-screen flex flex-col overflow-hidden border-r-2 border-[#FFD1E0] shadow-lg">
+    <div className="w-64 bg-[#FFE9F1] h-screen flex flex-col overflow-hidden border-r-2 border-[#FFB8D2] shadow-lg">
 
       {/* Mobile Logo */}
       <div className="lg:hidden p-5">
@@ -23,9 +23,9 @@ export default function DrawerMenu() {
 
       {/* Mobile Nav */}
       <ul className="menu p-4 w-full lg:hidden text-[#8B3A62] font-medium space-y-2">
-        <li>
+        {/* <li>
           <Link href="/" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">首頁</Link>
-        </li>
+        </li> */}
         <li>
           <Link href="/creators" onClick={closeDrawer} className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition">創作者</Link>
         </li>

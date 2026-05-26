@@ -1,4 +1,4 @@
-'use client';
+'use client';//監聽登入
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -10,12 +10,12 @@ export default function AdminLink() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // 檢查目前登入狀態
+   
     supabase.auth.getSession().then(({ data }) => {
       setIsLoggedIn(!!data.session);
     });
 
-    // 監聽登入狀態變化
+    
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
       setIsLoggedIn(!!session);
     });
@@ -40,10 +40,9 @@ export default function AdminLink() {
         flex items-center justify-center
         rounded-full
         text-2xl
-        text-[#FF6FA7]
+        text-[#8B3A62]
         bg-transparent
-        hover:text-[#ffffff]
-        hover:bg-[#FF6FA7]
+        hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition
         hover:scale-110
         transition-all duration-300
         cursor-pointer
