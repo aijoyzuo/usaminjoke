@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import { Rabbit, Code2, Sparkle,Handshake,Cat,Soup } from 'lucide-react';
+import WelcomeBanner from '@/components/WelcomeBanner';
 
 export const metadata = {
   title: "創作者介紹",  
@@ -124,6 +125,8 @@ const members: Member[] = [
 
 export default function CreatorsClient() {
   return (
+    <>
+        <WelcomeBanner />
     <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
     bg-[size:28px_28px] p-6">
       <div className="max-w-7xl mx-auto space-y-8">
@@ -291,5 +294,7 @@ export default function CreatorsClient() {
         </div>
       </div>
     </div>
+    </>
+
   );
 }
