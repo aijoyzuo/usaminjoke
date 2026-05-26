@@ -1,13 +1,8 @@
-// app/creators/page.tsx
 'use client';
 
-import Link from 'next/link';
+
 import { Rabbit, Code2, Sparkle,Handshake,Cat,Soup } from 'lucide-react';
 import WelcomeBanner from '@/components/WelcomeBanner';
-
-export const metadata = {
-  title: "創作者介紹",  
-};
 
 type Creator = {
   id: string;
@@ -96,7 +91,10 @@ const members: Member[] = [
     ],
     shopHref: '#',
     avatar: Soup,
-  },
+  }
+];
+
+const othermembers: Member[] = [ 
    {
     id: 'rnio4',
     name: '牛志郎',
@@ -232,11 +230,72 @@ export default function CreatorsClient() {
           </div>
         ))}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           {members.map((m) => (
             <div
               key={m.id}
               className="rounded-3xl bg-white border-2 border-[#FFD1E0] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">              <div className="sm:p-8 p-4 h-full flex flex-col">
+
+                {/* Header */}
+                <div className="flex items-center gap-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-16 h-16 rounded-2xl text-[#8B3A62] bg-[#FFE9F1] border-2 border-[#FFB8D2] flex items-center justify-center shadow-sm">
+                      <m.avatar size={30} strokeWidth={2.2} />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h2 className="text-2xl font-bold text-[#8B3A62] mt-1">
+                      {m.name}
+                    </h2>
+                    <span className="text-sm text-[#C48AA3]">
+                      @{m.nameEn}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="flex-1 mt-2">
+                  <p className="text-[#7A5167] leading-relaxed">
+                    {m.description}
+                  </p>
+                </div>
+
+                {/* Buttons 固定右下 */}
+                <div className="flex flex-wrap justify-end gap-3 pt-2 mt-auto">
+                  {m.socials.map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 rounded-xl border-2 border-[#FF9BC1] text-[#D85D93] hover:bg-[#FFE9F1] transition"
+                    >
+                      {s.label}
+                    </a>
+                  ))}
+
+                  <a
+                    href={m.shopHref}
+                    className={`px-3 py-1.5 rounded-xl font-medium transition flex items-center justify-center ${m.shopHref === '#'
+                      ? 'bg-[#FFDDE8] text-[#C8A6B5] cursor-not-allowed'
+                      : 'bg-[#FF6FA7] text-white hover:bg-[#FF5B99]'
+                      }`}
+                  >
+                    賣場
+                  </a>
+                </div>
+
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {othermembers.map((m) => (
+            <div
+              key={m.id}
+              className="rounded-3xl bg-white border-2 border-[#FFD1E0] shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">              
+              <div className="sm:p-8 p-4 h-full flex flex-col">
 
                 {/* Header */}
                 <div className="flex items-center gap-6">
