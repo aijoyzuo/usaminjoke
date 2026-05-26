@@ -3,7 +3,7 @@ export default function Loading() {
     <div className="min-h-screen flex items-center justify-center bg-[#FFF5F8]">
       <div className="text-center space-y-4">
         <img
-          src="https://images.plurk.com/5jRLJ0HcO1oWQ7qesSYxwZ.gif"
+          src="https://images.plurk.com/3oBACaZirirp7cpH9y7Wii.gif"
           alt="loading"
           className="w-40 mx-auto"
         />
