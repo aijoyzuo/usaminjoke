@@ -41,7 +41,7 @@ const creators: Creator[] = [
       '專門製作台灣諧音梗圖的創作者，但是無斷轉載的帳號讚數都比本人多，想想又覺得大家開心也好，又哭又笑地過每一天。',
     tags: ['諧音梗', '台灣創作', '諧音圖文', '新細敏體'],
     socials: [
-      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },, { label: 'Plurk', href: 'https://www.plurk.com/goodman9527' }
     ],
     shopHref: '#',
     avatar: Rabbit,
@@ -54,7 +54,7 @@ const creators: Creator[] = [
     description:
       '一名愛台人士，Happy End Engineer',
     tags: ['二創', 'Next.js', 'TypeScript', 'Front end'],
-    socials: [{ label: 'Instagram', href: 'https://www.instagram.com/zuo_aot' }, { label: 'Threads', href: 'https://www.threads.com/@zuo_aot?igshid=NTc4MTIwNjQ2YQ==' }],
+    socials: [{ label: 'Instagram', href: 'https://www.instagram.com/zuo_aot' }],
     shopHref: '#',
     avatar: Code2,
   },

@@ -18,6 +18,14 @@ export const metadata: Metadata = {
     description: "台灣最好笑的諧音梗圖搜尋網站",
     url: "https://usaminjoke.vercel.app/",
     siteName: "UsaminJoke",
+     images: [
+      {
+        url: "https://usaminjoke.vercel.app/og.png",
+        width: 1200,
+        height: 630,
+        alt: "UsamiJoke",
+      },
+    ],
     locale: "zh_TW",
     type: "website",
   },

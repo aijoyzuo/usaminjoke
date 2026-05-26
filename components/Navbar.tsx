@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HouseHeart, Rabbit, MessageSquareHeart, Settings } from "lucide-react";
+import { HouseHeart, Rabbit, MessageSquareHeart, Settings, PenTool } from "lucide-react";
 
 
 
@@ -20,7 +20,7 @@ export default function Navbar() {
           href="/"
           className="text-2xl font-bold text-[#8B3A62] tracking-tight flex items-center gap-2"
         >
-          <span className="text-nowrap">救渴の輕鬆小棧</span>
+          <span className="text-nowrap flex gap-1 items-center"><Rabbit />救渴の輕鬆小棧</span>
         </Link>
       </div>
 
@@ -42,7 +42,7 @@ export default function Navbar() {
               href="/creators"
               className="rounded-xl hover:bg-[#FFE9F1] hover:text-[#FF6FA7] transition flex items-center"
             >
-              <Rabbit size={18} />
+              <PenTool size={18} />
               <span className="mt-1">創作者</span>
             </Link>
           </li>
