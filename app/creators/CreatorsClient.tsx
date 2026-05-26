@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Rabbit, Code2, Sparkle } from 'lucide-react';
+import { Rabbit, Code2, Sparkle,Handshake,Cat,Soup } from 'lucide-react';
 
 export const metadata = {
   title: "創作者介紹",  
@@ -38,7 +38,7 @@ const creators: Creator[] = [
     role: '諧音梗圖創作者',
     description:
       '專門製作台灣諧音梗圖的創作者，但是無斷轉載的帳號讚數都比本人多，想想又覺得大家開心也好，又哭又笑地過每一天。',
-    tags: ['諧音梗', '台灣創作', '圖文', 'Threads'],
+    tags: ['諧音梗', '台灣創作', '諧音圖文', '新細敏體'],
     socials: [
       { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
     ],
@@ -46,14 +46,14 @@ const creators: Creator[] = [
     avatar: Rabbit,
   },
   {
-    id: 'aijoyzuo',
+    id: 'zuo',
     name: '佐降',
     nameEn: 'zuo',
     role: '網頁開發者',
     description:
       '一名愛台人士，Happy End Engineer',
-    tags: ['Next.js', 'TypeScript', 'Supabase', '前端開發'],
-    socials: [{ label: 'Plurk', href: 'https://www.plurk.com/Gitto' }, { label: 'Threads', href: 'https://www.threads.com/@zuo_aot?igshid=NTc4MTIwNjQ2YQ==' }],
+    tags: ['二創', 'Next.js', 'TypeScript', 'Front end'],
+    socials: [{ label: 'Instagram', href: 'https://www.instagram.com/zuo_aot' }, { label: 'Threads', href: 'https://www.threads.com/@zuo_aot?igshid=NTc4MTIwNjQ2YQ==' }],
     shopHref: '#',
     avatar: Code2,
   },
@@ -65,12 +65,12 @@ const members: Member[] = [
     name: '尼歐',
     nameEn: 'Rnio',
     description:
-      '經營胖胖咪復育中心。',
+      '經營胖胖咪復育中心',
     socials: [
       { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
     ],
     shopHref: '#',
-    avatar: Rabbit,
+    avatar: Cat,
   },
   {
     id: 'rnio2',
@@ -87,35 +87,35 @@ const members: Member[] = [
   {
     id: 'rnio3',
     name: '阿慈',
-    nameEn: 'daymimeda',
+    nameEn: 'daymimayda',
     description:
-      '台北如同不乾的乾麵，在盆底擁有過多的水分。',
+      '台北是不乾的乾麵，在盆底擁有過多水分',
     socials: [
-      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+      { label: 'Instagram', href: 'https://www.instagram.com/damimayda' },
     ],
     shopHref: '#',
-    avatar: Rabbit,
+    avatar: Soup,
   },
    {
     id: 'rnio4',
     name: '牛志郎',
-    nameEn: '億載京城午',
+    nameEn: 'cowyasan',
     description:
-      '府城里維老師',
+      '府城里維兵長，乾淨會愉快',
     socials: [
-      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+      { label: 'Plurk', href: 'https://www.plurk.com/m/COWYASAN' },
     ],
     shopHref: '#',
-    avatar: Rabbit,
+    avatar: Handshake,
   },
    {
     id: 'rnio5',
     name: '不妙',
-    nameEn: 'prmyau',
+    nameEn: 'pumyau',
     description:
-      '亞洲最大漢化組',
+      '薪水小偷的孫子在超商打工',
     socials: [
-      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+      { label: 'Plurk', href: 'https://www.threads.com/@usaminjoke' },
     ],
     shopHref: '#',
     avatar: Rabbit,
