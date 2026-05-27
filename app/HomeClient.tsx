@@ -77,7 +77,7 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
               {searchResults.length === 0
                 ? <p className="text-base-content/50">找不到相關梗圖</p>
                 : (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 lg:gap-6">
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 lg:gap-6">
                     {searchResults.map(({ matchedImage, group }) => (
                       <MemeGroupCard
                         key={matchedImage.id}
@@ -97,7 +97,7 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
               {groups.length === 0
                 ? <p className="text-base-content/50">目前還沒有梗圖</p>
                 : (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 lg:gap-6">
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4 lg:gap-6">
                     {groups.map(g => (
                       <MemeGroupCard key={g.id} group={g} />
                     ))}
