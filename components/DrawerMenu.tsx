@@ -40,7 +40,7 @@ export default function DrawerMenu() {
       <div className="mx-4 lg:hidden" />
 
       {/* Bunny Image */}
-      <div className="p-4 hidden md:block">
+      <div className="p-4 hidden lg:block">
         <div className="rounded-3xl overflow-hidden border-2 border-[#FFB8D2] shadow-md bg-white">
           <img
             src="https://images.plurk.com/1XMEs6gpBbJRe6ZeSak7Sl.jpg"
