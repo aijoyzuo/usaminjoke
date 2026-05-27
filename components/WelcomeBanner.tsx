@@ -28,7 +28,7 @@ export default function WelcomeBanner() {
             }}
         >
             <img
-                src="https://images.plurk.com/6mvlnSn4QPWxBLRHQMEMKk.png"
+                src="https://images.plurk.com/2oRuvbqHiPxpspdjR1XbXD.png"
                 alt="welcome"
                 style={{
                     width: 'clamp(300px, 15vw, 800px)',

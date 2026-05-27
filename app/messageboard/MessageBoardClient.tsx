@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Popcorn, Carrot, Croissant, CupSoda, Clover, Send, Sparkle, ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import WelcomeBanner from '@/components/WelcomeBanner';
 
 export const metadata = {
   title: "留言板",
@@ -98,6 +99,8 @@ export default function MessageBoardClient() {
   };
 
   return (
+    <>
+     <WelcomeBanner />
     <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)] bg-[size:28px_28px] p-6">
 
       <div className="max-w-7xl mx-auto mb-8">
@@ -236,5 +239,6 @@ export default function MessageBoardClient() {
         )}
       </div>
     </div>
+    </>
   );
 }
