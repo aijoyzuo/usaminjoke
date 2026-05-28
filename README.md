@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UsamiJoke｜諧音梗圖搜尋平台
 
-## Getting Started
+> 台灣諧音梗圖創作者 [@usaminjoke](https://www.threads.com/@usaminjoke) 的專屬梗圖搜尋網站
 
-First, run the development server:
+**Live Demo**: [usaminjoke.vercel.app](https://usaminjoke.vercel.app)
+
+---
+
+## 功能特色
+
+- **諧音模糊搜尋**：支援關鍵字、注音、圖片標籤比對
+- **分類側邊欄**：大分類 / 子分類篩選，資料來自 Supabase 動態載入
+- **圖組瀏覽**：每組梗圖有封面預覽，點進去可查看整組並複製圖片連結
+- **留言板**：匿名留言、選擇頭像、分頁顯示
+- **創作者介紹**：介紹創作者與工作人員
+- **後台管理系統**：新增 / 編輯 / 刪除梗圖組與圖片、管理分類與子分類、Excel 批次匯入、Supabase Auth 登入驗證
+
+---
+
+## 技術棧
+
+| 類別 | 技術 |
+|------|------|
+| 前端框架 | Next.js 16 App Router |
+| 語言 | TypeScript |
+| 樣式 | Tailwind CSS + DaisyUI |
+| 資料庫 | Supabase (PostgreSQL) |
+| 驗證 | Supabase Auth |
+| 部署 | Vercel |
+| Icon | Lucide React |
+
+---
+
+## 資料結構
+
+| 表格 | 說明 |
+|------|------|
+| image_groups | 圖組（關鍵字、注音、分類） |
+| images | 圖片（標題、網址、標籤、封面） |
+| categories | 分類（大分類 / 子分類） |
+| messages | 留言板 |
+
+---
+
+## 本地開發
+
+```bash
+git clone https://github.com/aijoyzuo/usaminjoke.git
+cd usaminjoke
+npm install
+```
+
+建立 `.env.local`：
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 製作
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 梗圖創作：[@usaminjoke](https://www.threads.com/@usaminjoke)
+- 網頁開發：joy
