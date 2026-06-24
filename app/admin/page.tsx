@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from '@/hooks/useAuth';
 import AdminAddGroup from './components/AdminAddGroup';
 import AdminGroups from './components/AdminGroups';
 import AdminCategories from './components/AdminCategories';
@@ -12,37 +13,21 @@ type Tab = 'add' | 'groups' | 'categories';
 
 export default function AdminPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const { isLoggedIn, loading } = useAuth();
   const [tab, setTab] = useState<Tab>('add');
 
   useEffect(() => {
-  // 先檢查現有 session
-  supabase.auth.getSession().then(({ data }) => {
-    if (!data.session) {
+    if (!loading && !isLoggedIn) {
       router.push('/admin/login');
-    } else {
-      setLoading(false);
     }
-  });
-
-  // 監聽登入/登出狀態變化
-  const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_OUT' || !session) {
-      router.push('/admin/login');
-    } else {
-      setLoading(false);
-    }
-  });
-
-  return () => subscription.unsubscribe();
-}, [router]);
+  }, [loading, isLoggedIn, router]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push('/admin/login');
   };
 
-  if (loading) return null;
+  if (loading || !isLoggedIn) return null;
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     {
