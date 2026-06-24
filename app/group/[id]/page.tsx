@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/server";
 import GroupClient from "./GroupClient";
 
 type Props = {

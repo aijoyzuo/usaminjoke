@@ -124,11 +124,13 @@ export default function AdminGroups() {
         .eq('id', img.id);
     }
 
+    let coverId: string | null = editImages.find(img => img.is_cover)?.id ?? null;
+
     if (newImages.length > 0) {
       const maxOrder = Math.max(...editImages.map(i => i.order), 0);
       for (let i = 0; i < newImages.length; i++) {
         const img = newImages[i];
-        await supabase.from('images').insert({
+        const { data: imageRow } = await supabase.from('images').insert({
           group_id: id,
           title: img.title || `圖片 ${maxOrder + i + 1}`,
           url: img.url,
@@ -137,14 +139,15 @@ export default function AdminGroups() {
           tags: img.tags
             ? img.tags.split(/[,，]/).map(t => t.trim()).filter(Boolean)
             : [],
-        });
+        }).select().single();
+        if (img.is_cover && imageRow) {
+          coverId = imageRow.id;
+        }
       }
     }
 
-    const allImages = [...editImages, ...newImages];
-    const cover = allImages.find(img => img.is_cover);
-    if (cover && 'id' in cover) {
-      await supabase.from('image_groups').update({ cover_image_id: cover.id }).eq('id', id);
+    if (coverId) {
+      await supabase.from('image_groups').update({ cover_image_id: coverId }).eq('id', id);
     }
 
     setEditingId(null);

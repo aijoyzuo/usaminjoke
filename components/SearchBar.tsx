@@ -21,7 +21,13 @@ export default function SearchBar() {
       params.set("q", value.trim());
     }
 
-    router.push(`/?${params.toString()}`);
+    const cat = searchParams.get("cat");
+    if (cat) {
+      params.set("cat", cat);
+    }
+
+    const query = params.toString();
+    router.push(query ? `/?${query}` : "/");
   };
 
   return (

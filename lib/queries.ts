@@ -1,4 +1,4 @@
-import { supabase } from './supabase'
+import { supabase } from './supabase/server'
 import { MemeGroup } from '@/types'
 
 export async function getAllGroups(): Promise<MemeGroup[]> {

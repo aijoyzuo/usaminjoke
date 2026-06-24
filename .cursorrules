@@ -1,0 +1,5 @@
+這是一個 Next.js + TypeScript + Tailwind CSS + Supabase 專案
+管理員登入使用 Supabase Auth
+資料庫是 PostgreSQL（透過 Supabase）
+請用繁體中文回覆
+回答時請說明原因，不要只給程式碼

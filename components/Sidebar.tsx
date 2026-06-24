@@ -34,7 +34,19 @@ export default function Sidebar() {
   };
 
   const setCategory = (id: string) => {
-    router.push(id ? `/?cat=${id}` : "/");
+    const params = new URLSearchParams();
+
+    const q = searchParams.get("q");
+    if (q) {
+      params.set("q", q);
+    }
+
+    if (id) {
+      params.set("cat", id);
+    }
+
+    const query = params.toString();
+    router.push(query ? `/?${query}` : "/");
   };
 
   const mainCategories = allCategories.filter(c => c.parent_id === null);
