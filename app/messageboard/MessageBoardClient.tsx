@@ -5,9 +5,6 @@ import { Popcorn, Carrot, Croissant, CupSoda, Clover, Send, Sparkle, ChevronLeft
 import { supabase } from '@/lib/supabase';
 import WelcomeBanner from '@/components/WelcomeBanner';
 
-export const metadata = {
-  title: "留言板",
-};
 
 const MAX_NAME_LENGTH = 10;
 const MAX_TEXT_LENGTH = 30;
