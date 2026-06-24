@@ -1,6 +1,7 @@
 import XLSX from 'xlsx';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { parseTags } from '../utils/parseTags';
 
 dotenv.config({ path: '.env.local' });
 
@@ -38,9 +39,7 @@ async function main() {
             title: row.image_title ?? '',
             url: row.image_url ?? '',
             is_cover: String(row.is_cover).toUpperCase() === 'TRUE',
-            tags: row.tags
-                ? String(row.tags).split(/[,，]/).map((t: string) => t.trim()).filter(Boolean)
-                : [],
+            tags: parseTags(row.tags),
         });
     });
 

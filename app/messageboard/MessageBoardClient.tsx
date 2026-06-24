@@ -141,7 +141,7 @@ export default function MessageBoardClient() {
           value={name}
           onChange={(e) => setName(e.target.value.slice(0, MAX_NAME_LENGTH))}
           placeholder="暱稱"
-          className="w-full sm:w-100 h-16 rounded-2xl border-2 border-[#FFD1E0] p-4 resize-none focus:outline-none focus:border-[#FF9BC1] mb-2"
+          className="w-full sm:w-96 h-16 rounded-2xl border-2 border-[#FFD1E0] p-4 resize-none focus:outline-none focus:border-[#FF9BC1] mb-2"
         />
         <textarea
           value={text}

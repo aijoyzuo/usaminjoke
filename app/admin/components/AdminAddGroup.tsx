@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { parseTags } from '@/utils/parseTags';
 import { Plus } from 'lucide-react';
 
 type ImageEntry = {
@@ -89,8 +90,7 @@ export default function AdminAddGroup() {
         const img = images[i];
         const { data: imageRow, error: imageError } = await supabase
           .from('images')
-          .insert({ group_id: group.id, title: img.title || `圖片 ${i + 1}`, url: img.url.trim(), order: i + 1, is_cover: img.isCover,tags: img.tags ? img.tags.split(',').map(t => t.trim()).filter(Boolean)
-      : [], })
+          .insert({ group_id: group.id, title: img.title || `圖片 ${i + 1}`, url: img.url.trim(), order: i + 1, is_cover: img.isCover, tags: parseTags(img.tags) })
           .select().single();
         if (imageError) throw imageError;
         if (img.isCover) coverId = imageRow.id;

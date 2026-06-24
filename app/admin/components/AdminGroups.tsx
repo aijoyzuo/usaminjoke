@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import { parseTags } from '@/utils/parseTags';
 import { ChevronLeft, ChevronRight, Plus, Save, X } from 'lucide-react';
 
 type Image = {
@@ -117,9 +118,7 @@ export default function AdminGroups() {
           title: img.title,
           url: img.url,
           is_cover: img.is_cover,
-          tags: editImageTags[img.id]
-            ? editImageTags[img.id].split(/[,，]/).map(t => t.trim()).filter(Boolean)
-            : [],
+          tags: parseTags(editImageTags[img.id]),
         })
         .eq('id', img.id);
     }
@@ -136,9 +135,7 @@ export default function AdminGroups() {
           url: img.url,
           order: maxOrder + i + 1,
           is_cover: img.is_cover,
-          tags: img.tags
-            ? img.tags.split(/[,，]/).map(t => t.trim()).filter(Boolean)
-            : [],
+          tags: parseTags(img.tags),
         }).select().single();
         if (img.is_cover && imageRow) {
           coverId = imageRow.id;

@@ -7,7 +7,7 @@ export const mockGroups: MemeGroup[] = [
     group_keyword: "鼠",
     group_keyword_zhuyin: "ㄕㄨˇ",
     category_main: "animal",
-    category_sub: "crab",
+    category_sub: "mouse",
     cover_image_id: "img1-1",
     is_featured: true,
     created_at: "",
