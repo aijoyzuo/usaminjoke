@@ -1,7 +1,7 @@
 'use client';
 
 
-import { Rabbit, Code2, Sparkle,Handshake,Cat,Soup,Dog } from 'lucide-react';
+import { Rabbit, Code2, Sparkle,Handshake,Cat,Soup,Dog,Pizza } from 'lucide-react';
 import WelcomeBanner from '@/components/WelcomeBanner';
 
 type Creator = {
@@ -49,7 +49,7 @@ const creators: Creator[] = [
     description:
       '一名愛台人士，Happy End Engineer',
     tags: ['二創', 'Next.js', 'TypeScript', 'Front end'],
-    socials: [{ label: 'Instagram', href: 'https://www.instagram.com/zuo_aot' }],
+    socials: [{ label: 'AboutJOY', href: 'https://cctaijoy.my.canva.site/aboutjoy' }],
     shopHref: '#',
     avatar: Code2,
   },
@@ -57,19 +57,19 @@ const creators: Creator[] = [
 
 const members: Member[] = [
   {
-    id: 'rnio1',
+    id: 'worker1',
     name: '尼歐',
     nameEn: 'Rnio',
     description:
       '經營胖胖咪復育中心',
     socials: [
-      { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },
+      { label: 'Plurk', href: 'https://www.plurk.com/Rnio' },
     ],
     shopHref: '#',
     avatar: Cat,
   },
   {
-    id: 'rnio2',
+    id: 'worker2',
     name: 'woffy',
     nameEn: 'woffymilk',
     description:
@@ -81,7 +81,7 @@ const members: Member[] = [
     avatar: Dog,
   },
   {
-    id: 'rnio3',
+    id: 'worker3',
     name: '阿慈',
     nameEn: 'daymimayda',
     description:
@@ -96,28 +96,28 @@ const members: Member[] = [
 
 const othermembers: Member[] = [ 
    {
-    id: 'rnio4',
+    id: 'worker4',
     name: '牛志郎',
     nameEn: 'cowyasan',
     description:
       '府城里維兵長，乾淨會愉快',
     socials: [
-      { label: 'Plurk', href: 'https://www.plurk.com/m/COWYASAN' },
+      { label: 'Plurk', href: 'https://www.plurk.com/COWYASAN' },
     ],
     shopHref: '#',
     avatar: Handshake,
   },
    {
-    id: 'rnio5',
+    id: 'worker',
     name: '不妙',
     nameEn: 'pumyau',
     description:
       '薪水小偷的孫子在超商打工',
     socials: [
-      { label: 'Plurk', href: 'https://www.threads.com/@usaminjoke' },
+      { label: '跑路中', href: '#' },
     ],
     shopHref: '#',
-    avatar: Rabbit,
+    avatar: Pizza,
   },
 ];
 
