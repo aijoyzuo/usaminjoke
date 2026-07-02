@@ -33,7 +33,7 @@ const creators: Creator[] = [
     nameEn: 'usaminjoke',
     role: '諧音梗圖創作者',
     description:
-      '專門製作台灣諧音梗圖的創作者，但是無斷轉載的帳號讚數都比本人多，想想又覺得大家開心也好，又哭又笑地過每一天。',
+      '每天買樂透想著退休的人。',
     tags: ['諧音梗', '台灣創作', '諧音圖文', '新細敏體'],
     socials: [
       { label: 'Threads', href: 'https://www.threads.com/@usaminjoke' },{ label: 'Plurk', href: 'https://www.plurk.com/goodman9527' }
