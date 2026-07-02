@@ -21,8 +21,15 @@ async function main() {
 
     // 拉所有分類
     const { data: cats } = await supabase.from('categories').select('*');
-    const catMap = new Map<string, string>(); // 中文名稱 → uuid
-    cats?.forEach(c => catMap.set(c.name, c.id));
+    const mainCatMap = new Map<string, string>(); // 主分類名稱 → uuid
+    const subCatMap = new Map<string, string>(); // `${主分類uuid}::子分類名稱` → uuid
+    cats?.forEach(c => {
+        if (c.parent_id === null) {
+            mainCatMap.set(c.name, c.id);
+        } else {
+            subCatMap.set(`${c.parent_id}::${c.name}`, c.id);
+        }
+    });
 
     // 把多行合併成圖組
     const groupMap = new Map<string, any>();
@@ -50,7 +57,7 @@ async function main() {
 
     for (const group of groups) {
         // 自動建立或取得主分類
-        let mainId = catMap.get(group.category_main);
+        let mainId = mainCatMap.get(group.category_main);
 
         if (!mainId) {
             const { data: newMain, error } = await supabase
@@ -68,15 +75,16 @@ async function main() {
             }
 
             mainId = newMain.id;
-            catMap.set(group.category_main, mainId!);
+            mainCatMap.set(group.category_main, mainId!);
             console.log(`＋建立主分類：${group.category_main}`);
         }
 
-        // 自動建立或取得子分類
+        // 自動建立或取得子分類（同一子分類名稱在不同主分類下要分開建立）
         let subId: string | null = null;
 
         if (group.category_sub) {
-            subId = catMap.get(group.category_sub) ?? null;
+            const subKey = `${mainId}::${group.category_sub}`;
+            subId = subCatMap.get(subKey) ?? null;
 
             if (!subId) {
                 const { data: newSub, error } = await supabase
@@ -92,7 +100,7 @@ async function main() {
                     console.error(`子分類建立失敗：${group.category_sub}`, error.message);
                 } else {
                     subId = newSub.id;
-                    catMap.set(group.category_sub, subId!);
+                    subCatMap.set(subKey, subId!);
                     console.log(`＋建立子分類：${group.category_sub}`);
                 }
             }
