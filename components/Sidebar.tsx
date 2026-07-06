@@ -20,13 +20,30 @@ export default function Sidebar() {
   const currentCat = searchParams.get("cat") || "";
 
   useEffect(() => {
-    supabase
-      .from('categories')
-      .select('*')
-      .order('created_at')
-      .then(({ data }) => {
-        if (data) setAllCategories(data);
-      });
+    const fetchCategories = () => {
+      supabase
+        .from('categories')
+        .select('*')
+        .order('created_at')
+        .then(({ data }) => {
+          if (data) setAllCategories(data);
+        });
+    };
+
+    fetchCategories();
+
+    const channel = supabase
+      .channel('categories-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'categories' },
+        fetchCategories
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const toggle = (id: string) => {
