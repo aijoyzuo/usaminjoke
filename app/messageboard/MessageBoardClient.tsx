@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Popcorn, Carrot, Croissant, CupSoda, Clover, Send, Sparkle, ChevronLeft, ChevronRight, type LucideIcon } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase/client';
 import WelcomeBanner from '@/components/WelcomeBanner';
 
 
@@ -33,23 +33,34 @@ export default function MessageBoardClient() {
   const [selectedAvatar, setSelectedAvatar] = useState<string>('Carrot');
   const [page, setPage] = useState(0);
   const [submitting, setSubmitting] = useState(false);
+  const [now, setNow] = useState<number | null>(null);
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
-  const fetchMessages = async (p = 0) => {
-    setLoading(true);
+  useEffect(() => {
+    const tick = () => setNow(Date.now());
+    const timeoutId = setTimeout(tick, 0);
+    const intervalId = setInterval(tick, 60000);
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  const fetchMessages = (p = 0) => {
     const from = p * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
 
-    const { data, count } = await supabase
+    return supabase
       .from('messages')
       .select('*', { count: 'exact' })
       .order('created_at', { ascending: false })
-      .range(from, to);
-
-    if (data) setMessages(data);
-    if (count !== null) setTotal(count);
-    setLoading(false);
+      .range(from, to)
+      .then(({ data, count }) => {
+        if (data) setMessages(data);
+        if (count !== null) setTotal(count);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -57,7 +68,8 @@ export default function MessageBoardClient() {
   }, [page]);
 
   const formatTime = (dateStr: string) => {
-    const diff = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
+    if (now === null) return '';
+    const diff = Math.floor((now - new Date(dateStr).getTime()) / 1000);
     if (diff < 60) return '剛剛';
     if (diff < 3600) return `${Math.floor(diff / 60)} 分鐘前`;
     if (diff < 86400) return `${Math.floor(diff / 3600)} 小時前`;
@@ -90,6 +102,7 @@ export default function MessageBoardClient() {
 
     setName('');
     setText('');
+    setLoading(true);
     setPage(0);
     fetchMessages(0);
     setSubmitting(false);
@@ -204,7 +217,7 @@ export default function MessageBoardClient() {
         {totalPages > 1 && (
           <div className="flex justify-center items-center gap-2 pt-2">
             <button
-              onClick={() => setPage(p => Math.max(0, p - 1))}
+              onClick={() => { setLoading(true); setPage(p => Math.max(0, p - 1)); }}
               disabled={page === 0}
               className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all"
             >
@@ -214,7 +227,7 @@ export default function MessageBoardClient() {
             {Array.from({ length: totalPages }, (_, i) => (
               <button
                 key={i}
-                onClick={() => setPage(i)}
+                onClick={() => { setLoading(true); setPage(i); }}
                 className={`w-8 h-8 rounded-xl text-sm font-medium transition-all ${
                   page === i
                     ? 'bg-[#FF6FA7] text-white'
@@ -226,7 +239,7 @@ export default function MessageBoardClient() {
             ))}
 
             <button
-              onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+              onClick={() => { setLoading(true); setPage(p => Math.min(totalPages - 1, p + 1)); }}
               disabled={page >= totalPages - 1}
               className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all"
             >

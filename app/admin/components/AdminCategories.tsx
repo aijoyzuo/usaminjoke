@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase/client';
 
 type Category = {
   id: string;
@@ -17,9 +17,10 @@ export default function AdminCategories() {
   const [newSubName, setNewSubName] = useState('');
   const [addingSubFor, setAddingSubFor] = useState<string | null>(null);
 
-  const fetchCategories = async () => {
-    const { data } = await supabase.from('categories').select('*').order('created_at');
-    if (data) setCategories(data);
+  const fetchCategories = () => {
+    return supabase.from('categories').select('*').order('created_at').then(({ data }) => {
+      if (data) setCategories(data);
+    });
   };
 
   useEffect(() => { fetchCategories(); }, []);

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { MemeGroup, MemeImage } from "@/types";
 import { Search } from "lucide-react"
 
@@ -30,12 +31,16 @@ export default function MemeGroupCard({ group, matchedImage }: Props) {
         transition-all duration-300
       "
     >
-      <div className="aspect-square overflow-hidden">
-        <img
-          src={displayImage?.url}
-          alt={displayImage?.title}
-          className="w-full h-full object-cover hover:scale-105 transition duration-500"
-        />
+      <div className="relative aspect-square overflow-hidden">
+        {displayImage?.url && (
+          <Image
+            src={displayImage.url}
+            alt={displayImage.title}
+            fill
+            sizes="(min-width: 1024px) 25vw, 50vw"
+            className="object-cover hover:scale-105 transition duration-500"
+          />
+        )}
       </div>
 
 

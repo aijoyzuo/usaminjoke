@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SearchBar() {
@@ -9,15 +9,17 @@ export default function SearchBar() {
 
   const q = searchParams.get("q") || "";
   const [value, setValue] = useState(q);
-  const skipSyncRef = useRef(false);
+  const [prevQ, setPrevQ] = useState(q);
+  const [skipNextSync, setSkipNextSync] = useState(false);
 
-  useEffect(() => {
-    if (skipSyncRef.current) {
-      skipSyncRef.current = false;
-      return;
+  if (q !== prevQ) {
+    setPrevQ(q);
+    if (skipNextSync) {
+      setSkipNextSync(false);
+    } else {
+      setValue(q);
     }
-    setValue(q);
-  }, [q]);
+  }
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -31,7 +33,7 @@ export default function SearchBar() {
       params.set("cat", cat);
     }
 
-    skipSyncRef.current = true;
+    setSkipNextSync(true);
     setValue("");
 
     const query = params.toString();

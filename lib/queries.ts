@@ -1,7 +1,8 @@
-import { supabase } from './supabase/server'
-import { MemeGroup } from '@/types'
+import { createClient } from './supabase/server'
+import { MemeGroup, MemeImage } from '@/types'
 
 export async function getAllGroups(): Promise<MemeGroup[]> {
+  const supabase = await createClient()
   const { data, error } = await supabase
     .from('image_groups')
     .select(`
@@ -18,6 +19,6 @@ export async function getAllGroups(): Promise<MemeGroup[]> {
   // images 按 order 排序
   return data.map(group => ({
     ...group,
-    images: group.images?.sort((a: any, b: any) => a.order - b.order)
+    images: group.images?.sort((a: MemeImage, b: MemeImage) => a.order - b.order)
   }))
 }

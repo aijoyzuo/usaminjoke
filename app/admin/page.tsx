@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import AdminAddGroup from './components/AdminAddGroup';
 import AdminGroups from './components/AdminGroups';

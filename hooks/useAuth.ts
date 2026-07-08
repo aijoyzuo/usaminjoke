@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase/client';
 import type { Session } from '@supabase/supabase-js';
 
 const IDLE_TIMEOUT_MS = 15 * 60 * 1000;

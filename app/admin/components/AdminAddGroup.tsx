@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase/client';
 import { parseTags } from '@/utils/parseTags';
 import { Plus } from 'lucide-react';
 
@@ -173,7 +173,8 @@ export default function AdminAddGroup() {
           {images.map((img, i) => (
             <div key={i} className={`p-4 rounded-3xl border-2 transition-all ${img.isCover ? 'border-[#FF6FA7] bg-[#FFF0F6]' : 'border-[#FFD1E0]'}`}>
               <div className="flex gap-4">
-                {img.url && <img src={img.url} className="w-20 h-20 object-cover rounded-2xl flex-shrink-0" onError={e => (e.currentTarget.style.display = 'none')} />}
+                {/* eslint-disable-next-line @next/next/no-img-element -- admin pastes arbitrary image URLs here; next/image requires an allowlisted domain */}
+                {img.url && <img src={img.url} alt="" className="w-20 h-20 object-cover rounded-2xl flex-shrink-0" onError={e => (e.currentTarget.style.display = 'none')} />}
                 <div className="flex-1 space-y-2">
                   <input className="w-full px-4 py-2 rounded-2xl border-2 border-[#FFD1E0] text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]" placeholder="圖片網址" value={img.url} onChange={e => updateUrl(i, e.target.value)} />
                   <input className="w-full px-4 py-2 rounded-2xl border-2 border-[#FFD1E0] text-[#8B3A62] focus:outline-none focus:border-[#FF9BC1]" placeholder="圖片標題" value={img.title} onChange={e => updateTitle(i, e.target.value)} />

@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { MemeGroup, SearchResult } from "@/types";
 import SearchBar from "@/components/SearchBar";
 import MemeGroupCard from "@/components/MemeGroupCard";
+import { zhuyinIncludes } from "@/lib/zhuyin";
 
 const normalize = (str: string) => str.trim().toLowerCase();
 
@@ -35,10 +36,9 @@ export default function HomeClient({ groups }: { groups: MemeGroup[] }) {
       }
 
       const normalizedQ = normalize(q);
-      //注音搜尋
       const matchGroup =
         normalize(g.group_keyword).includes(normalizedQ) ||
-        normalize(g.group_keyword_zhuyin || "").includes(normalizedQ);
+        zhuyinIncludes(g.group_keyword_zhuyin || "", q);
 
       if (matchGroup) {
         return g.images?.map(img => ({

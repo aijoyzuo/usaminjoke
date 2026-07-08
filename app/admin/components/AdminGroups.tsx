@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import Image from 'next/image';
+import { supabase } from '@/lib/supabase/client';
 import { parseTags } from '@/utils/parseTags';
 import { ChevronLeft, ChevronRight, Plus, Save, X } from 'lucide-react';
 
@@ -53,23 +54,25 @@ export default function AdminGroups() {
     tags: string;
   }[]>([]);
 
-  const fetchGroups = async (p = 0) => {
-    setLoading(true);
+  const fetchGroups = (p = 0) => {
     const from = p * PAGE_SIZE;
     const to = from + PAGE_SIZE - 1;
-    const { data, count } = await supabase
+    return supabase
       .from('image_groups')
       .select('*, images(*)', { count: 'exact' })
       .order('created_at', { ascending: false })
-      .range(from, to);
-    if (data) setGroups(data);
-    if (count !== null) setTotal(count);
-    setLoading(false);
+      .range(from, to)
+      .then(({ data, count }) => {
+        if (data) setGroups(data);
+        if (count !== null) setTotal(count);
+        setLoading(false);
+      });
   };
 
-  const fetchCategories = async () => {
-    const { data } = await supabase.from('categories').select('*').order('created_at');
-    if (data) setCategories(data);
+  const fetchCategories = () => {
+    return supabase.from('categories').select('*').order('created_at').then(({ data }) => {
+      if (data) setCategories(data);
+    });
   };
 
   useEffect(() => {
@@ -208,7 +211,7 @@ export default function AdminGroups() {
         <p className="text-sm text-[#C48AA3]">共 {total} 個圖組</p>
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setPage(p => Math.max(0, p - 1))}
+            onClick={() => { setLoading(true); setPage(p => Math.max(0, p - 1)); }}
             disabled={page === 0}
             className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all"
           >
@@ -218,7 +221,7 @@ export default function AdminGroups() {
             {page + 1} / {totalPages || 1}
           </span>
           <button
-            onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+            onClick={() => { setLoading(true); setPage(p => Math.min(totalPages - 1, p + 1)); }}
             disabled={page >= totalPages - 1}
             className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all"
           >
@@ -273,8 +276,10 @@ export default function AdminGroups() {
                     <div key={img.id} className={`p-3 rounded-2xl border-2 ${img.is_cover ? 'border-[#FF6FA7] bg-[#FFF0F6]' : 'border-[#FFD1E0]'}`}>
                       <div className="flex gap-3">
                         {img.url && (
+                          // eslint-disable-next-line @next/next/no-img-element -- admin can edit to an arbitrary URL; next/image requires an allowlisted domain
                           <img
                             src={img.url}
+                            alt=""
                             className="w-16 h-16 object-cover rounded-xl flex-shrink-0"
                             onError={e => (e.currentTarget.style.display = 'none')}
                           />
@@ -328,8 +333,10 @@ export default function AdminGroups() {
                       <div key={i} className={`p-3 rounded-2xl border-2 ${img.is_cover ? 'border-[#FF6FA7] bg-[#FFF0F6]' : 'border-[#FFD1E0]'}`}>
                         <div className="flex gap-3">
                           {img.url && (
+                            // eslint-disable-next-line @next/next/no-img-element -- admin can edit to an arbitrary URL; next/image requires an allowlisted domain
                             <img
                               src={img.url}
+                              alt=""
                               className="w-16 h-16 object-cover rounded-xl flex-shrink-0"
                               onError={e => (e.currentTarget.style.display = 'none')}
                             />
@@ -421,7 +428,9 @@ export default function AdminGroups() {
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {g.images?.sort((a, b) => a.order - b.order).map(img => (
                   <div key={img.id} className="flex-shrink-0 text-center p-1">
-                    <img src={img.url} className={`w-16 h-16 object-cover rounded-xl ${img.is_cover ? 'ring-2 ring-[#FF6FA7]' : ''}`} />
+                    <div className={`relative w-16 h-16 rounded-xl overflow-hidden ${img.is_cover ? 'ring-2 ring-[#FF6FA7]' : ''}`}>
+                      <Image src={img.url} alt={img.title} fill sizes="64px" className="object-cover" />
+                    </div>
                     <p className="text-xs text-[#C48AA3] mt-1 w-16 truncate">{img.title}</p>
                   </div>
                 ))}
@@ -433,15 +442,15 @@ export default function AdminGroups() {
 
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-2 pt-2">
-          <button onClick={() => setPage(p => Math.max(0, p - 1))} disabled={page === 0} className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all">
+          <button onClick={() => { setLoading(true); setPage(p => Math.max(0, p - 1)); }} disabled={page === 0} className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all">
             <ChevronLeft size={16} />
           </button>
           {Array.from({ length: totalPages }, (_, i) => (
-            <button key={i} onClick={() => setPage(i)} className={`w-8 h-8 rounded-xl text-sm font-medium transition-all ${page === i ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FFD1E0] text-[#D85D93] hover:bg-[#FFE9F1]'}`}>
+            <button key={i} onClick={() => { setLoading(true); setPage(i); }} className={`w-8 h-8 rounded-xl text-sm font-medium transition-all ${page === i ? 'bg-[#FF6FA7] text-white' : 'border-2 border-[#FFD1E0] text-[#D85D93] hover:bg-[#FFE9F1]'}`}>
               {i + 1}
             </button>
           ))}
-          <button onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))} disabled={page >= totalPages - 1} className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all">
+          <button onClick={() => { setLoading(true); setPage(p => Math.min(totalPages - 1, p + 1)); }} disabled={page >= totalPages - 1} className="p-2 rounded-xl border-2 border-[#FFD1E0] text-[#D85D93] disabled:opacity-30 hover:bg-[#FFE9F1] transition-all">
             <ChevronRight size={16} />
           </button>
         </div>

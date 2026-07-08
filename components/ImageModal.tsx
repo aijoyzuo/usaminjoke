@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from "react";
+import Image from "next/image";
 
 type Props = {
   url: string;
@@ -38,12 +39,18 @@ export default function ImageModal({ url, onClose }: Props) {
         ✕
       </button>
 
-      <img
-        src={url}
-        alt="梗圖"
-        className="max-w-[90%] max-h-[90%] rounded-lg"
+      <div
+        className="relative w-[90vw] h-[90vh]"
         onClick={(e) => e.stopPropagation()}
-      />
+      >
+        <Image
+          src={url}
+          alt="梗圖"
+          fill
+          sizes="90vw"
+          className="object-contain rounded-lg"
+        />
+      </div>
     </div>
   );
 }

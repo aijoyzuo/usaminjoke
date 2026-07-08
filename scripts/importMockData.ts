@@ -2,6 +2,7 @@ import XLSX from 'xlsx';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import ws from 'ws';
+import type { WebSocketLikeConstructor } from '@supabase/realtime-js';
 import { parseTags } from '../utils/parseTags';
 
 dotenv.config({ path: '.env.local' });
@@ -9,15 +10,38 @@ dotenv.config({ path: '.env.local' });
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  { realtime: { transport: ws as any } }
+  { realtime: { transport: ws as unknown as WebSocketLikeConstructor } }
 );
 
+type ExcelRow = {
+    group_keyword: string;
+    group_keyword_zhuyin?: string;
+    category_main: string;
+    category_sub?: string;
+    image_title?: string;
+    image_url?: string;
+    is_cover?: string | boolean;
+    tags?: string;
+};
+
+type MemeGroupImport = {
+    group_keyword: string;
+    group_keyword_zhuyin: string;
+    category_main: string;
+    category_sub: string;
+    images: {
+        title: string;
+        url: string;
+        is_cover: boolean;
+        tags: string[];
+    }[];
+};
 
 async function main() {
     // 讀取 Excel
     const wb = XLSX.readFile('./scripts/memes.xlsx');
-    const ws = wb.Sheets[wb.SheetNames[0]];
-    const rows: any[] = XLSX.utils.sheet_to_json(ws);
+    const sheet = wb.Sheets[wb.SheetNames[0]];
+    const rows: ExcelRow[] = XLSX.utils.sheet_to_json(sheet);
 
     // 拉所有分類
     const { data: cats } = await supabase.from('categories').select('*');
@@ -32,7 +56,7 @@ async function main() {
     });
 
     // 把多行合併成圖組
-    const groupMap = new Map<string, any>();
+    const groupMap = new Map<string, MemeGroupImport>();
     rows.forEach(row => {
         const key = row.group_keyword;
         if (!groupMap.has(key)) {
@@ -44,7 +68,7 @@ async function main() {
                 images: [],
             });
         }
-        groupMap.get(key).images.push({
+        groupMap.get(key)!.images.push({
             title: row.image_title ?? '',
             url: row.image_url ?? '',
             is_cover: String(row.is_cover).toUpperCase() === 'TRUE',

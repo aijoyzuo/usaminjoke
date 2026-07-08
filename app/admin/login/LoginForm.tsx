@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase/client';
 import { BadgeAlert, Eye, EyeOff } from 'lucide-react';
 
 export default function LoginForm() {
@@ -49,6 +49,7 @@ export default function LoginForm() {
               className="input input-bordered w-full bg-white rounded-2xl"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
             />
 
             {/* 密碼欄位 + 眼睛 */}

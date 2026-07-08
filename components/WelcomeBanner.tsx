@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export default function WelcomeBanner() {
     const [visible, setVisible] = useState(false);
@@ -27,9 +28,11 @@ export default function WelcomeBanner() {
                 transition: 'transform 0.5s ease-in-out',
             }}
         >
-            <img
+            <Image
                 src="https://images.plurk.com/2oRuvbqHiPxpspdjR1XbXD.png"
                 alt="welcome"
+                width={900}
+                height={900}
                 style={{
                     width: 'clamp(300px, 15vw, 800px)',
                     height: 'auto'

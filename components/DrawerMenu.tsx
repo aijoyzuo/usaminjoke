@@ -2,6 +2,7 @@
 
 import { Suspense } from 'react';
 import Link from "next/link";
+import Image from "next/image";
 import Sidebar from "./Sidebar";
 import { Settings } from "lucide-react";
 
@@ -41,11 +42,13 @@ export default function DrawerMenu() {
 
       {/* Bunny Image */}
       <div className="p-4 hidden lg:block">
-        <div className="rounded-3xl overflow-hidden border-2 border-[#FFB8D2] shadow-md bg-white">
-          <img
+        <div className="relative h-56 rounded-3xl overflow-hidden border-2 border-[#FFB8D2] shadow-md bg-white">
+          <Image
             src="https://images.plurk.com/1XMEs6gpBbJRe6ZeSak7Sl.jpg"
-            className="w-full h-56 object-cover"
             alt="Usamin"
+            fill
+            sizes="256px"
+            className="object-cover"
           />
         </div>
       </div>

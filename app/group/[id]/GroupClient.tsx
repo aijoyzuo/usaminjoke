@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import ImageModal from "@/components/ImageModal";
 import { MemeGroup } from "@/types";
 
@@ -22,19 +23,6 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
 
   const copyLink = (url: string) => {
     navigator.clipboard.writeText(url);
-  };
-
-  const downloadImage = async (url: string) => {
-    const res = await fetch(url);
-    const blob = await res.blob();
-    const blobUrl = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-    a.href = blobUrl;
-    a.download = "meme.jpg";
-    a.click();
-
-    URL.revokeObjectURL(blobUrl);
   };
 
   return (
@@ -68,16 +56,16 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
               `}
             >
               {/* Image */}
-              <img
-                src={img.url}
-                alt={img.title}
-                className="
-                  rounded-2xl cursor-pointer
-                  hover:scale-105 transition duration-300
-                  w-full
-                "
-                onClick={() => setSelectedImage(img.url)}
-              />
+              <div className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer">
+                <Image
+                  src={img.url}
+                  alt={img.title}
+                  fill
+                  sizes="(min-width: 1024px) 25vw, 50vw"
+                  className="object-cover hover:scale-105 transition duration-300"
+                  onClick={() => setSelectedImage(img.url)}
+                />
+              </div>
 
               {/* Title */}
               <p className="text-sm font-semibold text-[#D85D93] mt-3 truncate text-right mr-2">
@@ -88,21 +76,6 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
 
               {/* Buttons */}
               <div className="flex gap-2 mt-3">
-                {/* <button
-                  className="
-                    flex-1 px-3 py-2 rounded-xl
-                    cursor-pointer
-                    border-2 border-[#FF9BC1]
-                    text-[#D85D93]
-                    text-xs font-medium
-                    hover:bg-[#FFE9F1]
-                    transition
-                  "
-                  onClick={() => downloadImage(img.url)}
-                >
-                  下載
-                </button> */}
-
                 <button
                   disabled
                   className="
