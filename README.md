@@ -60,6 +60,24 @@ npm run dev
 
 ---
 
+## 測試
+
+| 指令 | 說明 |
+|------|------|
+| `npm test` | Vitest 單元測試（純函式邏輯、元件操作行為） |
+| `npm run test:e2e` | Playwright 端對端測試（真的啟動瀏覽器操作登入、搜尋） |
+
+E2E 的登入測試需要一組真實可登入的管理員帳密，在 `.env.local` 額外加上：
+
+```
+E2E_ADMIN_EMAIL=your_admin_email
+E2E_ADMIN_PASSWORD=your_admin_password
+```
+
+沒有設定的話，登入測試會自動略過，不影響其他測試執行。CI（GitHub Actions）會在每次 push / PR 時自動跑 lint、型別檢查、單元測試、build 與 E2E 測試。
+
+---
+
 ## 製作
 
 - 梗圖創作：[@usaminjoke](https://www.threads.com/@usaminjoke)
