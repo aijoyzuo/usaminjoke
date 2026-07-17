@@ -44,7 +44,7 @@ export default function DrawerMenu() {
       <div className="p-4 hidden lg:block">
         <div className="relative h-56 rounded-3xl overflow-hidden border-2 border-[#FFB8D2] shadow-md bg-white">
           <Image
-            src="https://images.plurk.com/1XMEs6gpBbJRe6ZeSak7Sl.jpg"
+            src="https://images.plurk.com/CUT7g0U6BkuZHUdhda4Di.jpg"
             alt="Usamin"
             fill
             sizes="256px"
