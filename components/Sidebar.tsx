@@ -135,31 +135,30 @@ export default function Sidebar() {
 
               {/* Children */}
               {subs.length > 0 && (
-                <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-80 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
-                  <ul className="pl-4 space-y-2">
+                <div className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-56 opacity-100 mt-2" : "max-h-0 opacity-0"}`}>
+                  <div className="flex flex-wrap gap-1.5 pl-4 pr-1 pb-1 max-h-56 overflow-y-auto">
                     {subs.map((c) => {
                       const childActive = currentCat === c.id;
                       return (
-                        <li key={c.id}>
-                          <button
-                            onClick={() => {
-                              setCategory(c.id);
-                              closeDrawer();
-                            }}
-                            className={`
-                              w-full text-left px-3 py-2 rounded-xl text-sm transition cursor-pointer 
-                              ${childActive
-                                ? "bg-[#FFD1E0] text-[#D85D93] font-semibold"
-                                : "text-[#8B3A62] hover:bg-[#FFF0F5]"
-                              }
-                            `}
-                          >
-                            #{c.name}
-                          </button>
-                        </li>
+                        <button
+                          key={c.id}
+                          onClick={() => {
+                            setCategory(c.id);
+                            closeDrawer();
+                          }}
+                          className={`
+                            px-3 py-1 rounded-full text-xs font-medium transition cursor-pointer
+                            ${childActive
+                              ? "bg-[#FF9BC1] text-white"
+                              : "bg-[#FFF0F5] text-[#8B3A62] hover:bg-[#FFD1E0] hover:text-[#D85D93]"
+                            }
+                          `}
+                        >
+                          #{c.name}
+                        </button>
                       );
                     })}
-                  </ul>
+                  </div>
                 </div>
               )}
             </div>
