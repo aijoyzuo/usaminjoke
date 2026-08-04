@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import AdminAddGroup from './components/AdminAddGroup';
-import AdminGroups from './components/AdminGroups';
-import AdminCategories from './components/AdminCategories';
-import { Settings, PlusCircle, Images, FolderTree } from "lucide-react";
+import AdminManage from './components/AdminManage';
+import { Settings, PlusCircle, FolderTree } from "lucide-react";
 
-type Tab = 'add' | 'groups' | 'categories';
+type Tab = 'add' | 'manage';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -36,13 +35,8 @@ export default function AdminPage() {
       icon: <PlusCircle size={18} />
     },
     {
-      id: 'groups',
-      label: '管理圖組',
-      icon: <Images size={18} />
-    },
-    {
-      id: 'categories',
-      label: '管理分類',
+      id: 'manage',
+      label: '管理',
       icon: <FolderTree size={18} />
     },
   ];
@@ -50,7 +44,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-[#FFF5F8] bg-[radial-gradient(#FFD1E0_1.5px,transparent_1.5px)]
     bg-[size:28px_28px]">
-      <div className="max-w-4xl mx-auto p-8 space-y-6">
+      <div className="max-w-6xl mx-auto p-8 space-y-6">
 
         {/* Header */}
         <div className="rounded-3xl bg-white border-2 border-[#FFD1E0] p-6 shadow-md flex justify-between items-center">
@@ -88,8 +82,7 @@ export default function AdminPage() {
 
         {/* Content */}
         {tab === 'add' && <AdminAddGroup />}
-        {tab === 'groups' && <AdminGroups />}
-        {tab === 'categories' && <AdminCategories />}
+        {tab === 'manage' && <AdminManage />}
 
       </div>
     </div>

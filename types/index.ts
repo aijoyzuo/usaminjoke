@@ -26,8 +26,8 @@ export type MemeGroup = {
   id: string
   group_keyword: string
   group_keyword_zhuyin: string
-  category_main: string         // 存 id，例如 "animal"
-  category_sub?: string         // 存 id，例如 "crab"
+  category_main: string | null  // 存分類 id；未歸檔時為 null
+  category_sub?: string | null  // 存分類 id；未歸檔時為 null
   cover_image_id: string
   is_featured: boolean
   featured_order?: number
