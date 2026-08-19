@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MemeGroup, MemeImage } from "@/types";
-import { Search } from "lucide-react"
+import { Folder } from "lucide-react"
 import ImageModal from "@/components/ImageModal";
 
 type Props = {
@@ -43,19 +43,17 @@ export default function MemeGroupCard({ group, matchedImage }: Props) {
       </div>
 
 
-      {matchedImage && !matchedImage.is_cover && (
+      {!isSingleImageShortcut && (
         <div className="p-1 flex justify-end">
           <div
             className="
             text-[#D85D93]
-            text-sm font-semibold
-            flex items-center gap-1
-            px-2 py-1 rounded-2xl
+            flex items-center justify-center
+            w-7 h-7 rounded-full
       bg-white/85
           "
           >
-            <Search size={14} />
-            {group.group_keyword}
+            <Folder size={14} />
           </div>
         </div>
       )}

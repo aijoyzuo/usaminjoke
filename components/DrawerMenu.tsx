@@ -42,7 +42,7 @@ export default function DrawerMenu() {
 
       {/* Bunny Image */}
       <div className="p-4 hidden lg:block">
-        <div className="relative h-56 rounded-3xl overflow-hidden border-2 border-[#FFB8D2] shadow-md bg-white">
+        <Link href="/" onClick={closeDrawer} className="block relative h-56 rounded-3xl overflow-hidden border-2 border-[#FFB8D2] shadow-md bg-white">
           <Image
             src="https://images.plurk.com/6xPwHY1Rhl4LTw3IwEmB9n.jpg"
             alt="Usamin"
@@ -50,7 +50,7 @@ export default function DrawerMenu() {
             sizes="256px"
             className="object-cover"
           />
-        </div>
+        </Link>
       </div>
 
       {/* Sidebar */}

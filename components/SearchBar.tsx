@@ -24,13 +24,9 @@ export default function SearchBar() {
   const handleSearch = () => {
     const params = new URLSearchParams();
 
+    // 全域搜尋：不帶入目前側欄選取的分類，避免搜尋結果被分類篩選限制住
     if (value.trim()) {
       params.set("q", value.trim());
-    }
-
-    const cat = searchParams.get("cat");
-    if (cat) {
-      params.set("cat", cat);
     }
 
     setSkipNextSync(true);
