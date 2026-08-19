@@ -28,7 +28,7 @@ export default function ImageModal({ url, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50"
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-[300]"
       onClick={onClose}
     >
       {/* 關閉按鈕 */}

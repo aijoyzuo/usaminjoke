@@ -49,7 +49,7 @@ const creators: Creator[] = [
     description:
       '一名愛台人士，Happy End Engineer',
     tags: ['二創', 'Next.js', 'TypeScript', 'Front end'],
-    socials: [{ label: 'AboutJOY', href: 'https://cctaijoy.my.canva.site/aboutjoy' }],
+    socials: [{ label: 'AboutJOY', href: 'https://aijoyzuo.github.io/joy-portfolio/' }],
     shopHref: '#',
     avatar: Code2,
   },
