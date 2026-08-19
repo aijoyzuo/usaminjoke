@@ -47,7 +47,7 @@ describe('SearchBar', () => {
     expect(push).toHaveBeenCalledWith('/?q=%E8%B2%93%E8%B2%93')
   })
 
-  it('preserves the existing "cat" param when searching', () => {
+  it('clears the existing "cat" param when searching (global search)', () => {
     setParams({ cat: 'animal' })
     render(<SearchBar />)
     const input = screen.getByPlaceholderText('搜尋梗圖...')
@@ -55,7 +55,7 @@ describe('SearchBar', () => {
     fireEvent.change(input, { target: { value: '兔兔' } })
     fireEvent.keyDown(input, { key: 'Enter' })
 
-    expect(push).toHaveBeenCalledWith('/?q=%E5%85%94%E5%85%94&cat=animal')
+    expect(push).toHaveBeenCalledWith('/?q=%E5%85%94%E5%85%94')
   })
 
   it('navigates to / when the search text is empty', () => {

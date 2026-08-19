@@ -43,8 +43,9 @@ export default function MemeGroupCard({ group, matchedImage }: Props) {
       </div>
 
 
-      {!isSingleImageShortcut && (
-        <div className="p-1 flex justify-end">
+      {/* 固定保留這一列的空間，讓所有卡片不管是否為圖組都同樣大小、圖片位置一致 */}
+      <div className="p-1 h-9 flex justify-end items-center">
+        {!isSingleImageShortcut && (
           <div
             className="
             text-[#D85D93]
@@ -55,8 +56,8 @@ export default function MemeGroupCard({ group, matchedImage }: Props) {
           >
             <Folder size={14} />
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 
