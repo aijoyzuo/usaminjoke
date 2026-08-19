@@ -20,9 +20,9 @@ export default function MemeGroupCard({ group, matchedImage }: Props) {
 
   const displayImage = matchedImage ?? coverImage;
 
-  // 只有在未經 Drawer 分類篩選或搜尋（沒有 matchedImage）且圖組只有一張圖時，
-  // 才直接彈出放大圖，其餘情況一律進圖組詳情頁
-  const isSingleImageShortcut = !matchedImage && group.images?.length === 1;
+  // 這張圖所屬的圖組只有它自己一張圖時，直接彈出放大圖；
+  // 圖組內還有其他圖片，一律進圖組詳情頁（並定位到這張圖）
+  const isSingleImageShortcut = (group.images?.length ?? 0) === 1;
 
   const href = matchedImage
     ? `/group/${group.id}?highlight=${matchedImage.id}`
