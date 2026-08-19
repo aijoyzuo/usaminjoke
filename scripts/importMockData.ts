@@ -55,6 +55,10 @@ async function main() {
         }
     });
 
+    // 拉現有圖組關鍵字，避免重複建立（保護既有資料）
+    const { data: existingGroups } = await supabase.from('image_groups').select('group_keyword');
+    const existingKeywords = new Set(existingGroups?.map(g => g.group_keyword));
+
     // 把多行合併成圖組
     const groupMap = new Map<string, MemeGroupImport>();
     rows.forEach(row => {
@@ -80,6 +84,12 @@ async function main() {
     console.log(`準備匯入 ${groups.length} 個圖組...`);
 
     for (const group of groups) {
+        // 資料庫已存在同名圖組，跳過以免產生重複資料
+        if (existingKeywords.has(group.group_keyword)) {
+            console.log(`（略過）「${group.group_keyword}」在資料庫中已存在同名圖組`);
+            continue;
+        }
+
         // 自動建立或取得主分類
         let mainId = mainCatMap.get(group.category_main);
 
