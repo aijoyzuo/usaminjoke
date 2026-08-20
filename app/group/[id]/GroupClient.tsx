@@ -67,8 +67,8 @@ export default function GroupClient({ group }: { group: MemeGroup }) {
                 />
               </div>
 
-              {/* Title */}
-              <p className="text-sm font-semibold text-[#D85D93] mt-3 truncate text-right mr-2">
+              {/* Title：固定最小高度，避免沒有 hashtag 的卡片高度塌陷，導致按鈕位置對不齊 */}
+              <p className="text-sm font-semibold text-[#D85D93] mt-3 truncate text-right mr-2 min-h-[1.25rem]">
                 {img.tags
                   ?.map(tag => `#${tag}`)
                   .join(' ')}
